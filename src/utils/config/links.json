@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Board",
+        "path": "board"
+    },
+    {
+        "title": "Calendar",
+        "path": "calendar"
+    },
+    {
+        "title": "Table",
+        "path": "table"
+    },
+    {
+        "title": "Chart",
+        "path": "chart"
+    },
+    {
+        "title": "Etc",
+        "path": "etc"
+    }
+]

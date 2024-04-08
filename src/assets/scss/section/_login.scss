@@ -1,0 +1,56 @@
+.login__wrap {
+    text-align: center;
+
+    .login__header {
+        border-top: 1px solid var(--white);
+        background-color: var(--main--color);
+        color: var(--white);
+        padding: 100px 0;
+
+        h3 {
+            font-size: 30px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+    }
+
+    .login__form {
+        padding-top: 50px;
+        width: 360px;
+        margin: 0 auto;
+
+        fieldset {
+            border: 0;
+
+            input {
+                width: 100%;
+                border: 1px solid #ccc;
+                padding: 15px 20px;
+                margin-bottom: 10px;
+            }
+
+            .btnWrap {
+                display: flex;
+                gap: 2%;
+
+            }
+
+            textarea {
+                width: 100%;
+                border: 1px solid #ccc;
+                padding: 15px 20px;
+                height: 300px;
+                resize: none;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+button {
+    border-radius: 5px;
+    background-color: var(--main--color);
+    width: 100%;
+    padding: 18px 20px;
+    color: var(--white);
+}

@@ -1,0 +1,26 @@
+[
+    {
+        "cateId": "1",
+        "name": "NOMAL"
+    },
+    {
+        "cateId": "2",
+        "name": "SUBTLE"
+    },
+    {
+        "cateId": "3",
+        "name": "Q&A"
+    },
+    {
+        "cateId": "4",
+        "name": "CARD_CATE"
+    },
+    {
+        "cateId": "5",
+        "name": "BLOG"
+    },
+    {
+        "cateId": "6",
+        "name": "GALLARY"
+    }
+]

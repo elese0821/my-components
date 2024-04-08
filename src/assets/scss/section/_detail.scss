@@ -1,0 +1,63 @@
+.detail__wrap {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 26px;
+    border-radius: 8px;
+    border: 1px solid rgb(243, 240, 255);
+    background: rgb(247, 246, 255);
+
+    .detail__title {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgb(225, 231, 245);
+
+        h3 {
+            margin-bottom: 10px;
+            color: rgb(100, 70, 255);
+        }
+
+        .auth {
+            font-size: 16px;
+            color: rgb(143, 149, 171);
+            position: relative;
+            padding-left: 26px;
+            padding-top: 1px;
+
+            &::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                background-color: rgb(100, 70, 255);
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .detail__content {
+        min-height: 500px;
+        color: rgb(80, 85, 103);
+        word-break: keep-all;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .detail__btn {
+        text-align: right;
+
+        button,
+        a {
+            background-color: rgb(100, 70, 255);
+            color: #fff;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    }
+}
