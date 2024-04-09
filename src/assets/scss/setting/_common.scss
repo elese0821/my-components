@@ -1,6 +1,6 @@
 body {
-    background-color: var(--white);
-    font-family: var(--mainfont-round);
+    background-color: var(--bgc);
+    font-family: var(--mainfont-nanum);
 }
 
 main {
@@ -9,7 +9,6 @@ main {
 
 // 섹션 공통 요소
 section {
-    padding: 40px;
 
     @media (max-width: 800px) {
         padding: 20px;
@@ -67,4 +66,71 @@ section {
     border: 1px solid #000;
     background-color: #fff;
     padding: 10px;
+}
+
+/* button
+a[class*="btn"] {
+    text-decoration: none;
+}
+input[class*="btn"],
+button[class*="btn"] {
+    border: 0;
+    cursor: pointer;
+} */
+
+.section__header {
+    border-top: 1px solid var(--white);
+    background-color: var(--main--color);
+    color: var(--white);
+    padding: 100px 0;
+    text-align: center;
+
+    h3 {
+        font-size: 30px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+}
+
+.btn {
+    background-color: #fff;
+    border: 0;
+    padding: 15px 25px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+
+    // color
+    &.black {
+        background-color: var(--btn--color);
+
+        &:active {
+            background-color: var(--black);
+        }
+    }
+
+    // size
+    &.mini {
+        padding: 4px 12px;
+        font-size: 12px;
+    }
+
+    &.small {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
+
+    // hover
+    &:hover {
+        background-color: var(--btn--hover);
+        color: var(--btn--hover--color);
+    }
+
+}
+
+// text-color
+
+.lime {
+    color: var(--sub--color);
 }

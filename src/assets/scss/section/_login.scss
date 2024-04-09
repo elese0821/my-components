@@ -1,21 +1,7 @@
 .login__wrap {
     text-align: center;
 
-    .login__header {
-        border-top: 1px solid var(--white);
-        background-color: var(--main--color);
-        color: var(--white);
-        padding: 100px 0;
-
-        h3 {
-            font-size: 30px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-    }
-
     .login__form {
-        padding-top: 50px;
         width: 360px;
         margin: 0 auto;
 

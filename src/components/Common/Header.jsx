@@ -9,7 +9,7 @@ const Header = () => {
                         <span>
                             WY
                         </span>
-                        <span>
+                        <span className='lime'>
                             components
                         </span>
                     </Link>

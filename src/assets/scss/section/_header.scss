@@ -33,7 +33,6 @@
                     &:nth-child(2) {
                         font-family: var(--mainfont-nexon);
                         font-size: 0.9rem;
-                        color: var(--sub--color);
                     }
                 }
             }
@@ -67,8 +66,6 @@
         margin-right: 10px;
         color: var(--white);
         font-weight: 600;
-
-
 
         ul {
             display: flex;

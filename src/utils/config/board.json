@@ -1,26 +1,26 @@
 [
     {
-        "cateId": "1",
-        "name": "NOMAL"
+        "cateId": "normal",
+        "name": "NORMAL"
     },
     {
-        "cateId": "2",
+        "cateId": "subtle",
         "name": "SUBTLE"
     },
     {
-        "cateId": "3",
+        "cateId": "qna",
         "name": "Q&A"
     },
     {
-        "cateId": "4",
+        "cateId": "cate",
         "name": "CARD_CATE"
     },
     {
-        "cateId": "5",
+        "cateId": "blog",
         "name": "BLOG"
     },
     {
-        "cateId": "6",
-        "name": "GALLARY"
+        "cateId": "gallery",
+        "name": "GALLERY"
     }
 ]

@@ -50,11 +50,7 @@ const Register = () => {
     }
 
     return (
-        <div className='login__wrap'>
-            <div className="login__header">
-                <h3>Join</h3>
-                <p>회원가입 페이지</p>
-            </div>
+        <section className='login__wrap'>
             <form className='login__form'>
                 <fieldset>
                     <legend className="blind">로그인 영역</legend>
@@ -74,9 +70,9 @@ const Register = () => {
                         />
                     </div>
 
-                    <div style={{ marginBottom: "10px" }}>
+                    <div>
                         {nameInfo}
-                        <button onClick={(e) => NameCheckFunc(e)}>닉네임 중복검사</button>
+                        <button className="btn black mb-2.5" onClick={(e) => NameCheckFunc(e)}>닉네임 중복검사</button>
                     </div>
 
                     <div>
@@ -124,10 +120,10 @@ const Register = () => {
                             onChange={(e) => setYouPassC(e.currentTarget.value)}
                         />
                     </div>
-                    <button disabled={flag} type="submit" className="btn__style2 mt30" onClick={(e) => JoinFunc(e)}>회원가입</button>
+                    <button disabled={flag} type="submit" className="btn black" onClick={(e) => JoinFunc(e)}>회원가입</button>
                 </fieldset>
             </form>
-        </div>
+        </section>
     )
 }
 

@@ -1,5 +1,4 @@
 
-import { useEffect } from "react";
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 
@@ -18,11 +17,7 @@ const Login = () => {
     }
 
     return (
-        <div className='login__wrap'>
-            <div className="login__header">
-                <h3>login</h3>
-                <p>로그인 페이지</p>
-            </div>
+        <section className='login__wrap'>
             <form className='login__form'>
                 <fieldset>
                     <legend className="blind">로그인 영역</legend>
@@ -57,10 +52,10 @@ const Login = () => {
                     <div>
                         {errorMsg !== "" && <p>{errorMsg}</p>}
                     </div>
-                    <button type="submit" onClick={(e) => LoginFunc(e)} className="btn__style2 mt30">로그인</button>
+                    <button type="submit" onClick={(e) => LoginFunc(e)} className="btn black">로그인</button>
                 </fieldset>
             </form>
-        </div>
+        </section>
     )
 }
 
