@@ -22,5 +22,9 @@
     {
         "cateId": "gallery",
         "name": "GALLERY"
+    },
+    {
+        "cateId": "card",
+        "name": "CARD"
     }
 ]

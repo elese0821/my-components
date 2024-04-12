@@ -8,6 +8,7 @@ import BoardBlog from "./BoardCate/BoardBlog";
 import BoardGallery from "./BoardCate/BoardGallery";
 import BoardWrite from "./BoardPost/BoardWrite";
 import { useEffect, useState } from "react";
+import BoardCard from "./BoardCate/BoardCard";
 
 const Board = () => {
     // 기본 게시판페이지와 글쓰기페이지시 isMatchAny false
@@ -42,6 +43,7 @@ const Board = () => {
                 <Route path='/qna' element={<BoardQnA />} />
                 <Route path='/cate' element={<BoardCate />} />
                 <Route path='/blog' element={<BoardBlog />} />
+                <Route path='/card' element={<BoardCard />} />
                 <Route path='/gallery/*' element={<BoardGallery />} />
 
                 {/* 글쓰기페이지 */}

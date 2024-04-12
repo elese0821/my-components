@@ -134,3 +134,10 @@ button[class*="btn"] {
 .lime {
     color: var(--sub--color);
 }
+
+// boardCard
+.group {
+    &:hover {
+        background-color: #ffffff5e;
+    }
+}

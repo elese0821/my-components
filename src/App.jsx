@@ -42,7 +42,7 @@ function App() {
 
                     <Route path="/board/*" element={<Board />} />
                     <Route path="/calendar" element={<Calendar />} />
-                    <Route path="/table" element={<Table />} />
+                    <Route path="/table/*" element={<Table />} />
                     <Route path="/chart" element={<Chart />} />
 
                     <Route path="/etc/*" element={<Etc />} />

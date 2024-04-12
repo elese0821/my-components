@@ -55,6 +55,7 @@ const Login = () => {
                     <button type="submit" onClick={(e) => LoginFunc(e)} className="btn black">로그인</button>
                 </fieldset>
             </form>
+
         </section>
     )
 }
