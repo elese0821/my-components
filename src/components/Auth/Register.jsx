@@ -1,52 +1,51 @@
 import { useState } from "react";
 
-import axios from 'axios'
+import instance from "../../services/instance";
 // import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const [youName, setYouName] = useState("");
-    const [youEmail, setYouEmail] = useState("");
-    const [youPass, setYouPass] = useState("");
-    const [youPassC, setYouPassC] = useState("");
-    const [flag, setFlag] = useState(false);
-    const [nameCheck, setNameCheck] = useState(false);
-    const [nameInfo, setNameInfo] = useState("")
+    const [formData, setFormData] = useState({
+        name: '',
+        Email: '',
+        Pass: '',
+        PassC: ''
+    });
+    const [flag, setFlag] = useState(false)
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     // let navigate = useNavigate();
 
     const JoinFunc = async (e) => {
         e.preventDefault();
 
-        if (!(youName && youEmail && youPass && youPassC)) {
+        if (!(formData.name && formData.Email && formData.Pass && formData.PassC)) {
             return alert("모든 항목을 입력하셔야 회원가입이 가능합니다.");
         }
-        if (youPass !== youPassC) {
+        if (formData.Pass !== formData.PassC) {
             return alert("비밀번호가 일치하지 않습니다.")
         }
-        if (!nameCheck) {
-            return alert("닉네임 중복 검사를 해주세요!");
-        }
-    }
 
-    const NameCheckFunc = (e) => {
-        e.preventDefault();
-        if (!youName) {
-            return alert("닉네임을 입력해주세요!");
-        }
-        let body = {
-            displayName: youName,
-        }
-
-        axios.post("/api/user/namecheck", body).then((response) => {
-            if (response.data.success) {
-                if (response.data.check) {
-                    setNameCheck(true);
-                    setNameInfo("사용 가능한 닉네임입니다.");
-                } else {
-                    setNameInfo("사용할 수 없는 닉네임입니다.");
-                }
+        const _res = await instance.post("/regist",
+            {
+                "id": formData.Email,
+                "usrNm": formData.name,
+                "pw": formData.Pass,
+                "email": formData.PassC
             }
-        })
+        )
+
+        if (_res.data.result === "success") {
+            alert("회원가입이 완료되었습니다.");
+        } else {
+            alert("회원가입에 실패하였습니다.");
+        }
     }
 
     return (
@@ -55,69 +54,61 @@ const Register = () => {
                 <fieldset>
                     <legend className="blind">로그인 영역</legend>
                     <div>
-                        <label htmlFor="youName" className="required blind">이름</label>
+                        <label htmlFor="name" className="required blind">이름</label>
                         <input
                             type="text"
                             id="youName"
-                            name="youName"
+                            name="name"
                             placeholder="닉네임"
                             className="input__style"
                             autoComplete='off'
                             required
                             minLength={8}
-                            value={youName}
-                            onChange={(e) => setYouName(e.currentTarget.value)}
+                            value={formData.name}
+                            onChange={handleChange}
                         />
                     </div>
 
                     <div>
-                        {nameInfo}
-                        <button className="btn black mb-2.5" onClick={(e) => NameCheckFunc(e)}>닉네임 중복검사</button>
-                    </div>
-
-                    <div>
-                        <label htmlFor="youEmail" className="required blind">이메일</label>
+                        <label htmlFor="Email" className="required blind">이메일</label>
                         <input
                             type="email"
-                            id="youEmail"
-                            name="youEmail"
+                            id="Email"
+                            name="Email"
                             placeholder="이메일"
-                            className="input__style"
                             autoComplete='off'
                             required
                             minLength={8}
-                            value={youEmail}
-                            onChange={(e) => setYouEmail(e.currentTarget.value)}
+                            value={formData.Email}
+                            onChange={handleChange}
                         />
                     </div>
                     <div>
-                        <label htmlFor="youPass" className="required blind">비밀번호</label>
+                        <label htmlFor="Pass" className="required blind">비밀번호</label>
                         <input
                             type="text"
-                            id="youPass"
-                            name="youPass"
+                            id="Pass"
+                            name="Pass"
                             placeholder="비밀번호"
-                            className="input__style"
                             autoComplete="off"
                             required
                             minLength={8}
-                            value={youPass}
-                            onChange={(e) => setYouPass(e.currentTarget.value)}
+                            value={formData.Pass}
+                            onChange={handleChange}
                         />
                     </div>
                     <div>
-                        <label htmlFor="youPassC" className="required blind">확인 비밀번호</label>
+                        <label htmlFor="PassC" className="required blind">확인 비밀번호</label>
                         <input
                             type="text"
-                            id="youPassC"
-                            name="youPassC"
+                            id="PassC"
+                            name="PassC"
                             placeholder="확인 비밀번호"
-                            className="input__style"
                             autoComplete="off"
                             required
                             minLength={8}
-                            value={youPassC}
-                            onChange={(e) => setYouPassC(e.currentTarget.value)}
+                            value={formData.PassC}
+                            onChange={handleChange}
                         />
                     </div>
                     <button disabled={flag} type="submit" className="btn black" onClick={(e) => JoinFunc(e)}>회원가입</button>

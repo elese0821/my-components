@@ -61,6 +61,7 @@ const Etc = () => {
                             value={formData.name}
                             onChange={handleChange}
                             required
+                            autoComplete='off'
                         />
                     </div>
                     <div>
@@ -72,6 +73,7 @@ const Etc = () => {
                             value={formData.age}
                             onChange={handleChange}
                             required
+                            autoComplete='off'
                         />
                     </div>
                     <div>
@@ -83,6 +85,7 @@ const Etc = () => {
                             value={formData.birthDate}
                             onChange={handleChange}
                             required
+                            autoComplete='off'
                         />
                     </div>
                 </fieldset>
@@ -100,6 +103,7 @@ const Etc = () => {
                         value={formData.occupation}
                         onChange={handleChange}
                         required
+                        autoComplete='off'
                     >
                         <option value="">(선택)</option>
                         <option value="developer">선택1</option>

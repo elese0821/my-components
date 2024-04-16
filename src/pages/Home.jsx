@@ -1,17 +1,15 @@
 import { Link } from "react-router-dom";
 import linksData from "../utils/config/links.json"
 
+import styles from "./Home.module.scss";
+
 const Home = () => {
 
     return (
-        <div className='list__wrap'>
+        <div className={styles.home_wrap}>
             {linksData.map((link, i) => (
-                <Link className='list' key={i} to={link.path}>
-                    <span className='cate'>{link.title}</span>
-                    <h3 className='title'>
-                        {link.title}
-                    </h3>
-                    <p className='desc'>{link.title}</p>
+                <Link className={styles.category} key={i} to={link.path}>
+                    {link.title}
                 </Link>
             ))}
         </div>

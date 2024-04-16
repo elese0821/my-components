@@ -1,30 +1,26 @@
 [
     {
         "cateId": "normal",
-        "name": "NORMAL"
+        "name": "게시판"
     },
     {
         "cateId": "subtle",
-        "name": "SUBTLE"
+        "name": "게시판 응용"
     },
     {
         "cateId": "qna",
         "name": "Q&A"
     },
     {
-        "cateId": "cate",
-        "name": "CARD_CATE"
-    },
-    {
         "cateId": "blog",
-        "name": "BLOG"
+        "name": "게시판 블로그형"
     },
     {
         "cateId": "gallery",
-        "name": "GALLERY"
+        "name": "게시판 갤러리형"
     },
     {
         "cateId": "card",
-        "name": "CARD"
+        "name": "카드형"
     }
 ]

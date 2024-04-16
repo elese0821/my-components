@@ -1,8 +1,5 @@
-import { Link, Route, Routes } from "react-router-dom"
-import GalleryGrid from "./Gallery/GalleryGrid"
-import GalleryGrid2 from "./Gallery/GalleryGrid2"
-import GallerySlide from "./Gallery/GallerySlide"
-import GallerySlide2 from "./Gallery/GallerySlide2"
+import { Link, Outlet } from "react-router-dom"
+
 
 const BoardGallery = () => {
 
@@ -37,12 +34,7 @@ const BoardGallery = () => {
                 ))}
             </ul>
 
-            <Routes>
-                <Route path="grid" element={<GalleryGrid />} />
-                <Route path="grid2" element={<GalleryGrid2 />} />
-                <Route path="slide" element={<GallerySlide />} />
-                <Route path="slide2" element={<GallerySlide2 />} />
-            </Routes>
+            <Outlet />
         </div >
     )
 }

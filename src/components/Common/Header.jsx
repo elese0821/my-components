@@ -1,20 +1,22 @@
 import { Link } from 'react-router-dom'
+import styles from './Header.module.scss';
+
 
 const Header = () => {
     return (
-        <header id='header' role='banner'>
-            <div className='left'>
-                <h1 className='logo'>
+        <header id={styles.header} role='banner'>
+            <div className={styles.left}>
+                <h1 className={styles.logo}>
                     <Link to="/">
                         <span>
                             WY
                         </span>
-                        <span className='lime'>
+                        <span className={styles.lime}>
                             components
                         </span>
                     </Link>
                 </h1>
-                {/* <nav className='nav'>
+                {/* <nav className={styles.nav}>
                     <ul>
                         <li>
                             <Link to="/">Home</Link>
@@ -40,7 +42,7 @@ const Header = () => {
                     </ul>
                 </nav> */}
             </div>
-            <div className='right'>
+            <div className={styles.right}>
                 <ul>
                     <li>
                         <Link to="/login">로그인</Link>
