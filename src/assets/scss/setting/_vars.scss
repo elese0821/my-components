@@ -1,4 +1,5 @@
 :root {
+    --main--font: "Pretandard";
     --mainfont-nanum: "nanumSquareNeo";
     --mainfont-nexon: "nexonLv1";
     --mainfont-round: "NanumSquareRound";
@@ -24,18 +25,18 @@
     --white400: #b6b6b6;
     --white500: #969696;
 
-    --border: #e5e7eb;
+    --border: #f9fafc;
     --main--color: #1a1a1a;
     --sub--color: #dcff40;
     --red: #f00;
     --red100: rgba(255, 0, 0, 0.441);
-    --bgc: #f8f8f8;
+    --bgc: #f7f7f7;
     --btn--color: #313131;
     --btn--hover: #313131af;
     --btn--hover--color: #ffffff;
 
     // 폰트 셋팅
-    font-family: var(--mainfont-nanum), var(--mainfont-nexon);
+    font-family: var(--main--font), var(--mainfont-nexon);
     font-size: 16px;
     line-height: 1.5;
     font-weight: 400;
@@ -51,4 +52,5 @@
         font-size: 14px;
         line-height: 1.4;
     }
+
 }

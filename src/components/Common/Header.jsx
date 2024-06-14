@@ -1,49 +1,50 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Header.module.scss';
-
+import useDialogStore from '../../stores/dialogStore';
+import useUserStore from '../../stores/userStore';
 
 const Header = () => {
+    const { userId, logout } = useUserStore();
+    const openDialog = useDialogStore(state => state.openDialog);
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+        openDialog("로그아웃🥲");
+    }
+
     return (
         <header id={styles.header} role='banner'>
+
             <div className={styles.left}>
                 <h1 className={styles.logo}>
                     <Link to="/">
                         <span>
                             WY
                         </span>
+
                         <span className={styles.lime}>
                             components
                         </span>
                     </Link>
                 </h1>
-                {/* <nav className={styles.nav}>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/board">Board</Link>
-                        </li>
-                        <li>
-                            <Link to="/calendar">Calendar</Link>
-                        </li>
-                        <li>
-                            <Link to="/table">Table</Link>
-                        </li>
-                        <li>
-                            <Link to="/chart">Chart</Link>
-                        </li>
-                        <li>
-                            <Link to="/icon">Icon</Link>
-                        </li>
-                        <li>
-                            <Link to="/alert">Alert</Link>
-                        </li>
-                    </ul>
-                </nav> */}
             </div>
             <div className={styles.right}>
-                <ul>
+                {userId ? (
+                    <ul>
+                        <li>
+                            <span className='cursor-pointer'>
+                                <font className='underline underline-offset-2 text-yellow-200'>{userId}</font>님 환영합니다
+                            </span>
+                        </li>
+                        <li>
+                            <span className='cursor-pointer' onClick={handleLogout}>
+                                로그아웃
+                            </span>
+                        </li>
+                    </ul>
+                ) : (<ul>
                     <li>
                         <Link to="/login">로그인</Link>
                     </li>
@@ -51,6 +52,7 @@ const Header = () => {
                         <Link to="/register">회원가입</Link>
                     </li>
                 </ul>
+                )}
             </div>
         </header >
     )

@@ -1,13 +1,18 @@
+import Category from "./Category"
+
 const Main = ({ children }) => {
     return (
         <main id='main' role='main'>
             <section className='section__header'>
-                <h3 className="font-bold text-7xl tracking-wider">WY</h3>
-                <p className="lime">COMPONENTS</p>
+                <div className="title">
+                    <h3>WY</h3>
+                    <p>COMPONENTS</p>
+                </div>
+                <div className="absolute bottom-0 w-full">
+                    <Category />
+                </div>
             </section>
-            <section className="p-8">
-                {children}
-            </section>
+            {children}
         </main>
     )
 }

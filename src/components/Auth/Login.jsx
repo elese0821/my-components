@@ -1,17 +1,25 @@
-
+`1`
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import instance from "../../services/instance";
-import useUserStore from "../../stores/useUserStore";
-// import { useNavigate } from "react-router-dom";
+import useUserStore from "../../stores/userStore";
+import useDialogStore from "../../stores/dialogStore";
+import Kakao from "./Kakao";
+import Google from "./Google";
+import Input from "../common/forms/Input";
 
 const Login = () => {
+    // 변수 선언
     const [formData, setFormData] = useState({
-        Email: '',
+        id: '',
         Pass: '',
     });
+    const { setUser, usrIdx, userId, token } = useUserStore();
+    const navigate = useNavigate();
+    // 모달
+    const openDialog = useDialogStore(state => state.openDialog);
 
-    const { user, setUser } = useUserStore();
-
+    // 함수 선언
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -19,72 +27,77 @@ const Login = () => {
             [name]: value
         }));
     };
-
-    const [errorMsg, setErrorMsg] = useState("");
-    // const navigate = useNavigate();
-
     const LoginFunc = async (e) => {
         e.preventDefault();
 
-        if (!(formData.Email && formData.Pass)) {
-            return alert("이메일 또는 비밀번호를 채워주세요!");
+        if (!(formData.id && formData.Pass)) {
+            return openDialog("아이디 또는 비밀번호를 채워주세요!");
         }
 
         const _res = await instance.post("/login", {
-            "id": formData.Email,
+            "id": formData.id,
             "pw": formData.Pass,
-        }
-        )
+            "login_type": "NORMAL"
+        });
 
         if (_res.data.result === "success") {
-            setUser(formData.Email);
-            alert("환영합니다.");
+            setUser({
+                userId: _res.data.username,
+                token: _res.data.token,
+                usrIdx: _res.data.USR_IDX
+            });
+            openDialog("로그인😎!");
+            navigate("/");
         } else {
-            alert("로그인에 실패하였습니다.");
+            openDialog("로그인 실패🥲");
         }
     }
 
     return (
-        <section className='login__wrap'>
-            <form className='login__form'>
-                <fieldset>
-                    <legend className="blind">로그인 영역</legend>
-                    <div>
-                        <label htmlFor="Email" className="required blind">이메일</label>
-                        <input
-                            type="email"
-                            id="Email"
-                            name="Email"
-                            placeholder="이메일"
-                            className="input__style"
-                            autoComplete='off'
-                            required
-                            value={formData.Email}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="Pass" className="required blind">비밀번호</label>
-                        <input
-                            type="password"
-                            id="Pass"
-                            name="Pass"
-                            placeholder="비밀번호"
-                            className="input__style"
-                            autoComplete="off"
-                            required
-                            value={formData.Pass}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        {errorMsg !== "" && <p>{errorMsg}</p>}
-                    </div>
-                    <button type="submit" onClick={(e) => LoginFunc(e)} className="btn black">로그인</button>
-                </fieldset>
-            </form>
-
-        </section>
+        <div className="section_wrap">
+            <section className="flex justify-center items-center flex-col">
+                <form className='w-full max-w-md rounded bg-white justify-center p-8 rounded' onSubmit={LoginFunc}>
+                    <fieldset className="flex flex-col gap-8 items-center">
+                        <legend className="sr-only blind">로그인</legend>
+                        <div className="w-full">
+                            <Input
+                                htmlFor="email"
+                                required="required"
+                                type="text"
+                                id="youId"
+                                name="id"
+                                placeholder="아이디"
+                                className="p-3 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                autoComplete='off'
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <label htmlFor="Pass" className="required blind">비밀번호</label>
+                            <input
+                                type="password"
+                                id="Pass"
+                                name="Pass"
+                                placeholder="비밀번호"
+                                className="p-3 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                autoComplete="off"
+                                required
+                                value={formData.Pass}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button
+                            className="btn black w-full rounded disabled:opacity-75 bg-blue-600 p-3 text-white hover:bg-blue-700"
+                            type="submit"
+                            onClick={(e) => LoginFunc(e)}
+                        >로그인</button>
+                    </fieldset>
+                </form>
+                <Kakao />
+                <Google />
+            </section>
+        </div>
     )
 }
 
