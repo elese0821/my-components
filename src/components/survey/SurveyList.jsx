@@ -9,7 +9,7 @@ export default function SurveyList() {
     }, [surveyList])
 
     return (
-        <>
+        <div className="shadow-md rounded-md">
             {surveyList.map((el) => {
                 const { contents, title, surveyIdx, finishSurvey } = el;
 
@@ -20,11 +20,17 @@ export default function SurveyList() {
                     finishSurvey: finishSurvey
                 }
 
-                return (
-                    <List key={data.surveyIdx} surveyList={data} />
-                )
+                if (data.finishSurvey === "Y") {
+                    return (
+                        <List key={data.surveyIdx} surveyList={data} finishSurvey="Y" className="" />
+                    )
+                } else {
+                    return (
+                        <List key={data.surveyIdx} surveyList={data} finishSurvey="N" className="" />
+                    )
+                }
             })
             }
-        </>
+        </div>
     )
 }

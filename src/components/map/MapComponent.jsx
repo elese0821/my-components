@@ -7,7 +7,17 @@ export default function MapComponent({ roadAddress }) {
         lng: 126.8277766799008
     });
     const [coords, setCoords] = useState(null);
-    const isLoaded = useKakaoLoader();
+    const isLoaded = useKakaoLoader({
+        appkey: import.meta.env.VITE_APP_KAKAO_JS_KEY, // 발급 받은 APPKEY
+        libraries: ["services", "clusterer", "drawing"],
+    });
+
+
+    useEffect(() => {
+        if (isLoaded && roadAddress) {
+            kakaoMapGeoCoder(roadAddress);
+        }
+    }, [roadAddress]);
 
     const kakaoMapGeoCoder = (address) => {
         if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
@@ -27,14 +37,6 @@ export default function MapComponent({ roadAddress }) {
             console.error('Kakao Map services are not available.');
         }
     }
-
-    useEffect(() => {
-        if (isLoaded && roadAddress) {
-            kakaoMapGeoCoder(roadAddress);
-        }
-    }, [roadAddress]);
-
-    useKakaoLoader();
 
     return (
         <Map

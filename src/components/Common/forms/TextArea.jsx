@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function TextArea({ type, children, className, rows, cols }) {
     return (
-        <label >
+        <label>
             <textarea
                 type={type}
                 className={` ${className}`}
