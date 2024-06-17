@@ -1,6 +1,5 @@
 
-import React, { useEffect } from 'react'
-import './App.module.scss';
+import { useEffect } from 'react'
 import useDialogStore from './stores/dialogStore';
 import Footer from './components/common/Footer';
 
@@ -28,6 +27,8 @@ import SurveyPage from './pages/survey/SurveyPage';
 import SurveyDetail from './components/survey/SurveyDetail';
 import SurveyList from './components/survey/SurveyList';
 import EtcPage from './pages/Etc/EtcPage';
+import WritePage from './pages/board/WritePage';
+
 export default function App() {
   const { isOpen } = useDialogStore();
   const { code, path, setStatus, loading } = useStatusStore();
@@ -81,6 +82,7 @@ export default function App() {
               <Route path='basic' element={<BoardBasic />} />
               <Route path='subtle' element={<BoardSubtle />} />
             </Route>
+            <Route path='/boardWrite' element={<WritePage />} />
 
             {/* 설문 */}
             <Route path='/survey/*' element={<SurveyPage />}>
