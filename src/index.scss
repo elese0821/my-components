@@ -1,0 +1,44 @@
+@import './assets/fonts/fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: var(--bgc);
+    font-family: var(--main--font);
+}
+
+html {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-size: 14px;
+
+    @media (max-width:1024px) {
+        font-size: 1.2rem;
+    }
+}
+
+
+body {
+    font-family: "OneSinhan", "LINESeedKR-Rg";
+    position: relative;
+    word-break: keep-all;
+
+}
+
+.popup-triangle {
+    position: absolute;
+    top: -10px;
+    /* Adjust as necessary */
+    left: 10px;
+    /* Adjust as necessary */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--color-gray-4);
+}
+
+.ck-content {
+    min-height: 20vh;
+}

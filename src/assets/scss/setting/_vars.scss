@@ -1,8 +1,6 @@
 :root {
-    --main--font: "Pretandard";
-    --mainfont-nanum: "nanumSquareNeo";
-    --mainfont-nexon: "nexonLv1";
-    --mainfont-round: "NanumSquareRound";
+    --main--font: "OneSinhan";
+    --main--font2: "LINESeedKR";
 
     --black: #000000;
     --black100: #161616;
@@ -36,7 +34,7 @@
     --btn--hover--color: #ffffff;
 
     // 폰트 셋팅
-    font-family: var(--main--font), var(--mainfont-nexon);
+    font-family: var(--main--font);
     font-size: 16px;
     line-height: 1.5;
     font-weight: 400;
@@ -52,5 +50,4 @@
         font-size: 14px;
         line-height: 1.4;
     }
-
 }

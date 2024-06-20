@@ -82,7 +82,6 @@ export default function App() {
               <Route path='basic' element={<BoardBasic />} />
               <Route path='subtle' element={<BoardSubtle />} />
             </Route>
-            <Route path='/boardWrite' element={<WritePage />} />
 
             {/* 설문 */}
             <Route path='/survey/*' element={<SurveyPage />}>
