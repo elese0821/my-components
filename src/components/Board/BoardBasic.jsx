@@ -1,12 +1,13 @@
 import { useOutletContext } from 'react-router-dom';
-import H1 from '../common/tag/H1';
-import { EllipsisHorizontalCircleIcon } from '@heroicons/react/24/solid';
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import useUserStore from '../../stores/userStore';
+import BoardSearch from './BoardSearch';
+import BoardTabPage from './BoardTabPage';
+import { EllipsisHorizontalCircleIcon } from '@heroicons/react/20/solid';
 
 export default function BoardBasic() {
-    const { list, handleBoardData } = useOutletContext();
+    const { list, handleBoardData, handleRow, handleSearch } = useOutletContext();
     const [openPopupIndex, setOpenPopupIndex] = useState(null);
     const { usrIdx } = useUserStore();
     const popupRef = useRef(null);
@@ -33,11 +34,10 @@ export default function BoardBasic() {
 
     return (
         <>
-            <H1>일반게시판</H1>
-            <div className='text-sm'>
-                <div className='flex justify-between'>
-                    <div>페이지 셀렉트 드롭다운박스</div>
-                    <div>검색창</div>
+            <div className='text-sm w-full'>
+                <div className='flex justify-between mb-2'>
+                    <BoardTabPage handleRow={handleRow} />
+                    <BoardSearch handleSearch={handleSearch} />
                 </div>
                 <table className='divide-y divide-gray-200'>
                     <thead className='bg-gray1'>
@@ -93,9 +93,7 @@ export default function BoardBasic() {
                                             }
                                         </motion.ul>
                                     )}
-                                    {/* <Button className="text-red-600 hover:text-red-900 p-0 h-0" onClick={() => handleBoardData("view", item.boardIdx)}>상세보기</Button> */}
                                 </td>
-
                             </tr>
                         ))}
                     </tbody>

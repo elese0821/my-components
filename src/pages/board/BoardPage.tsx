@@ -10,13 +10,16 @@ import WritePage from './WritePage';
 import useUserStore from '../../stores/userStore';
 import BoardViewPage from './BoardViewPage';
 import Pagination from '../../components/common/pagination/Pagination';
+import H1 from './../../components/common/tag/H1';
 
 export default function BoardPage() {
     const [list, setList] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1); // 총 페이지 수 상태 추가
+    const [row, setRow] = useState(10); // 총 페이지 수 상태 추가
     const { isOpen, openModal, closeModal } = useModalStore(state => state);
     const { openDialog } = useDialogStore();
+    const [searchStr, setSearchStr] = useState(''); // 게시판 검색
     // modal state
     const [modalState, setModalState] = useState("write")
 
@@ -48,7 +51,14 @@ export default function BoardPage() {
         }
     }
 
-    // 게시판 데이터
+    // row 제어
+    const handleRow = (row) => {
+        setRow(row);
+        setPage(1);
+        getBoardList();
+    }
+
+    // 게시판 단건조회
     const getBoardView = async (boardIdx) => {
         try {
             const _res = await instance.get('/user/board/info', {
@@ -72,8 +82,9 @@ export default function BoardPage() {
         try {
             const _res = await instance.get('/user/board/info', {
                 params: {
-                    row: 10,
-                    pageNo: page
+                    row: row,
+                    pageNo: page,
+                    searchStr: searchStr ? searchStr : null
                 }
             });
             if (_res.status === 200) {
@@ -86,6 +97,35 @@ export default function BoardPage() {
         } catch (e) {
             console.log(e);
         }
+    };
+
+    // 게시판검색
+    const getBoardSearch = async (search) => {
+        try {
+            const _res = await instance.get('/user/board/info', {
+                params: {
+                    row: row,
+                    pageNo: page,
+                    searchStr: search !== "" ? search : null
+                }
+            });
+            if (_res.status === 200) {
+                const _data = await _res.data;
+                setList(_data.list);
+                setTotalPages(Math.ceil(_data.total / 10));
+            } else {
+                console.log("게시글 검색실패🤣");
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    // 검색어 조회 클릭시 
+    const handleSearch = (search) => {
+        console.log(search)
+        getBoardSearch(search);
+        setSearchStr("");
     };
 
     // 게시물 삭제
@@ -117,23 +157,29 @@ export default function BoardPage() {
     }, [page]);
 
     useEffect(() => {
+        getBoardList();
+    }, [row]);
+
+    useEffect(() => {
     }, [boardCurrentData])
 
     return (
         <>
-            <div className='section_wrap flex flex-col gap-4'>
+            <div className='section_wrap flex flex-col gap-2 relative'>
+                <div className='flex justify-between'>
+                    <H1>일반게시판</H1>
+                    <Button className="mx-0 text-sm" onClick={handleIsOpen}>글쓰기</Button>
+                </div>
                 <Outlet
                     context={{
                         list: list,
                         handleBoardData: handleBoardData,
-                        setPage: setPage,
+                        handleRow: handleRow,
+                        handleSearch: handleSearch
                     }}
                 />
+
                 <Pagination totalPages={totalPages} page={page} setPage={setPage} />
-                <div
-                    className='col-start-3 flex items-center justify-end'>
-                    <Button className="mx-0" onClick={handleIsOpen}>글쓰기</Button>
-                </div>
             </div>
             {isOpen &&
                 <Modal>

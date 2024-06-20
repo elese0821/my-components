@@ -50,6 +50,8 @@ npm install @tiptap/react @tiptap/pm @tiptap/starter-kit // 글쓰기 에디터
 npm install @tiptap/extension-text
 npm install @tiptap/extension-color
 npm i @tiptap/core @tiptap/extension-bold @tiptap/extension-bubble-menu @tiptap/extension-code @tiptap/extension-document @tiptap/extension-history @tiptap/extension-italic @tiptap/extension-paragraph @tiptap/extension-strike @tiptap/extension-text @tiptap/extension-underline
+
+npm install @headlessui/react // headless ui 리액트용  css라이브러리
 ```
 ### 프로젝트 특징
 reactjs vite로 빌드 
