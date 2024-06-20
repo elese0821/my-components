@@ -5,6 +5,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import useUserStore from '../../stores/userStore';
 import useModalStore from '../../stores/modalStore';
 import Modal from './../modal/Modal';
+import Button from './../common/forms/Button';
 
 export default function ChatList() {
     const { userId, token } = useUserStore(state => state);
@@ -150,21 +151,21 @@ export default function ChatList() {
                                             </div>
                                         )}
                                     </div>
-                                    <button
+                                    <Button
                                         className='cursor-pointer bg-gray-500 rounded-2xl hover:bg-gray-400 transition text-white h-12 w-16'
                                         onClick={() => handleEnterChat(list.chatNm, list.channelId)}
-                                    >입장</button>
+                                    >입장</Button>
                                 </div>
                             </div>
                         )
                     })
                 }
-                <button
+                <Button
                     onClick={handleAddClick}
                     className="flex items-center justify-center bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
                     <PlusCircleIcon className="h-5 w-5 mr-2" />
                     채팅룸 추가
-                </button>
+                </Button>
 
                 {/* 채팅방 */}
                 <Outlet />
@@ -200,9 +201,9 @@ export default function ChatList() {
                                     autoComplete='off'
                                 />
                             </form>
-                            <button onClick={handleAddChatRoom} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">
+                            <Button onClick={handleAddChatRoom} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">
                                 채팅방 생성
-                            </button>
+                            </Button>
                         </ div>
                     ) : (
                         <div className='px-10 pb-10 flex-col justify-center flex'>
@@ -231,9 +232,9 @@ export default function ChatList() {
                                     autoComplete='off'
                                 />
                             </form>
-                            <button onClick={handleEnterChatRoom} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">
+                            <Button onClick={handleEnterChatRoom} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">
                                 채팅방 입장
-                            </button>
+                            </Button>
                         </div>
                     )}
                 </div>

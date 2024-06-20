@@ -27,6 +27,8 @@ npm install react-daum-postcode//주소
 
 npm install react-kakao-maps-sdk //카캌오맵
 
+
+
 // 웹소켓 채팅구현
 npm install sockjs-client //SockJS는 웹소켓 API를 에뮬레이션하는 라이브러리로, 웹소켓이 지원되지 않는 브라우저에서도 웹소켓과 유사한 기능을 제공할 수 있게 도와줌
 npm install stompjs //STOMP(간단한 텍스트 지향 메시징 프로토콜)은 웹소켓 위에서 작동하는 메시징 프로토콜
@@ -44,6 +46,10 @@ npm install @mui/material @emotion/react @emotion/styled //
 npm install classnames // module css 중복 사용시 필요
 npm install react-geocode // 주소 좌표 변환
 npm install react-cookie // 쿠키사용
+npm install @tiptap/react @tiptap/pm @tiptap/starter-kit // 글쓰기 에디터
+npm install @tiptap/extension-text
+npm install @tiptap/extension-color
+npm i @tiptap/core @tiptap/extension-bold @tiptap/extension-bubble-menu @tiptap/extension-code @tiptap/extension-document @tiptap/extension-history @tiptap/extension-italic @tiptap/extension-paragraph @tiptap/extension-strike @tiptap/extension-text @tiptap/extension-underline
 ```
 ### 프로젝트 특징
 reactjs vite로 빌드 

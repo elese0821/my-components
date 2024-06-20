@@ -7,6 +7,7 @@ import { Stomp } from "@stomp/stompjs";
 import styles from "./ChatRoom.module.scss";
 import useDialogStore from "../../stores/dialogStore";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import Button from "../common/forms/Button";
 
 export default function ChatRoom() {
     const location = useLocation();
@@ -235,9 +236,9 @@ export default function ChatRoom() {
                             onChange={(e) => setMessage(e.target.value)}
                             onKeyUp={(e) => activeEnter(e)}
                         />
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 transition" onClick={() => sendMessage(sendFileType ? "F" : "C")}>
+                        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 transition" onClick={() => sendMessage(sendFileType ? "F" : "C")}>
                             전송
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div >
