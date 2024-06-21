@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import instance from '../../services/instance';
-import Button from '../../components/common/forms/Button';
 import Modal from './../../components/modal/Modal';
 import useModalStore from '../../stores/modalStore';
-import Dialog from '../../components/modal/Dialog';
 import useDialogStore from '../../stores/dialogStore';
 import WritePage from './WritePage';
-import useUserStore from '../../stores/userStore';
 import BoardViewPage from './BoardViewPage';
 import Pagination from '../../components/common/pagination/Pagination';
 import H1 from './../../components/common/tag/H1';
+import Buttons from '../../components/common/forms/Buttons';
 
 export default function BoardPage() {
     const [list, setList] = useState([]);
@@ -122,8 +120,9 @@ export default function BoardPage() {
     };
 
     // 검색어 조회 클릭시 
-    const handleSearch = (search) => {
-        console.log(search)
+    const handleSearch = (search) => (e) => {
+        e.preventDefault();
+        console.log(e)
         getBoardSearch(search);
         setSearchStr("");
     };
@@ -154,28 +153,21 @@ export default function BoardPage() {
 
     useEffect(() => {
         getBoardList();
-    }, [page]);
-
-    useEffect(() => {
-        getBoardList();
-    }, [row]);
-
-    useEffect(() => {
-    }, [boardCurrentData])
+    }, [page, row]);
 
     return (
         <>
             <div className='section_wrap flex flex-col gap-2 relative'>
                 <div className='flex justify-between'>
                     <H1>일반게시판</H1>
-                    <Button className="mx-0 text-sm" onClick={handleIsOpen}>글쓰기</Button>
+                    <Buttons className="mx-0 text-sm" onClick={handleIsOpen}>글쓰기</Buttons>
                 </div>
                 <Outlet
                     context={{
                         list: list,
                         handleBoardData: handleBoardData,
                         handleRow: handleRow,
-                        handleSearch: handleSearch
+                        handleSearch: handleSearch,
                     }}
                 />
 
@@ -186,9 +178,9 @@ export default function BoardPage() {
                     {modalState === "view" ? (
                         <BoardViewPage data={boardCurrentData} />
                     ) : modalState === "modify" ? (
-                        <WritePage data={boardCurrentData} handleBoardData={handleBoardData} />
+                        <WritePage data={boardCurrentData} handleBoardData={handleBoardData} getBoardList={getBoardList} />
                     ) : modalState === "write" ? (
-                        <WritePage data={boardCurrentData} handleBoardData={handleBoardData} />
+                        <WritePage data={boardCurrentData} handleBoardData={handleBoardData} getBoardList={getBoardList} />
                     ) : null}
                 </Modal>
             }

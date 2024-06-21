@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Form from './../../components/common/forms/Form';
 import Radio from '../../components/common/forms/Radio';
-import Button from './../../components/common/forms/Button';
 import RadioGroups from '../../components/common/forms/RadioGroups';
-import Input from './../../components/common/forms/Input';
+import InputText from '../../components/common/forms/InputText';
+import Buttons from '../../components/common/forms/Buttons';
 
 export default function EtcPage() {
     const [answers, setAnswers] = useState({});
@@ -71,7 +71,7 @@ export default function EtcPage() {
                         </RadioGroups>
                     </div>
                 ))}
-                <Button className="bg-red-500" onClick={handleSubmit} >Submit</Button>
+                <Buttons className="bg-red-500" onClick={handleSubmit} >Submit</Buttons>
             </Form>
 
             <Form className="mb-6">
@@ -108,25 +108,25 @@ export default function EtcPage() {
                         </RadioGroups>
                     </div>
                 ))}
-                <Button className="bg-red-500" onClick={handleSubmit} >Submit</Button>
+                <Buttons className="bg-red-500" onClick={handleSubmit} >Submit</Buttons>
             </Form>
 
             <Form>
-                <Input type="email" placeholder="email" />
-                <Input type="tel" placeholder="tel" />
-                <Input type="url" placeholder="url" />
-                <Input type="month" placeholder="month" />
-                <Input type="week" placeholder="week" />
-                <Input type="time" placeholder="time" />
-                <Input type="color" placeholder="color" />
-                <Input type="range" placeholder="range" />
-                <Input type="search" placeholder="search" />
-                <Input type="number" placeholder="number" />
-                <Input type="date" placeholder="date" />
-                <Input type="password" placeholder="password" />
-                <Input type="image" placeholder="image" />
-                <Input type="file" placeholder="image" />
-                <Input type="reset" placeholder="reset" />
+                <InputText type="email" placeholder="email" />
+                <InputText type="tel" placeholder="tel" />
+                <InputText type="url" placeholder="url" />
+                <InputText type="month" placeholder="month" />
+                <InputText type="week" placeholder="week" />
+                <InputText type="time" placeholder="time" />
+                <InputText type="color" placeholder="color" />
+                <InputText type="range" placeholder="range" />
+                <InputText type="search" placeholder="search" />
+                <InputText type="number" placeholder="number" />
+                <InputText type="date" placeholder="date" />
+                <InputText type="password" placeholder="password" />
+                <InputText type="image" placeholder="image" />
+                <InputText type="file" placeholder="image" />
+                <InputText type="reset" placeholder="reset" />
             </Form>
         </section>
     )

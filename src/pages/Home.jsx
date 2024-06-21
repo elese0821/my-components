@@ -4,7 +4,8 @@ const Home = () => {
 
     return (
         <div
-            className="section_wrap">환영!</div>
+            className="section_wrap">환영!
+        </div>
     )
 }
 

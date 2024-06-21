@@ -7,9 +7,11 @@ export default {
   theme: {
     extend: {
       boxShadow: {
-        'md': '0 1px 4px 1px rgba(0, 0, 0, 0.2)',
+        'md': '0 1px 4px 1px rgba(0, 0, 0, 0.09)',
+        'inner-custom': 'inset 0 2px 4px rgba(0, 0, 0, 0.1)',
       },
       colors: {
+        rgba: 'rgba(0, 0, 0, 0.5)',
         pink: '#ee415f',
         green: '#58ce97',
         orange: '#fc7d4a',
@@ -19,6 +21,8 @@ export default {
         peach: '#ecb38d',
         aqua: '#a0ded0',
         paleAqua: '#c0ebe1',
+        purple: '#967BDC ',
+        purple2: '#872ed1 ',
         lightestBlue: '#f8fcff',
         blue: '#4c88e9',
         black: '#242e39',

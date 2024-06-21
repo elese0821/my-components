@@ -55,6 +55,7 @@ section {
     padding-top: 4rem;
     max-width: 80rem;
     margin: 0 auto;
+    z-index: 0;
 }
 
 // 섹션 로딩 소스
@@ -106,13 +107,14 @@ button[class*="btn"] {
     height: 70vh;
     display: flex;
     align-items: center;
-    background-image: url(/kakao.png);
+    // background-image: url(/kakao.png);
+    background-image: url("/kakao3.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     flex-direction: column;
     justify-content: center;
-    filter: grayscale(0);
+    z-index: 2;
 
     @media (max-width: 1250px) {
         height: 40vh;

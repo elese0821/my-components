@@ -16,7 +16,6 @@ const Header = () => {
 
     return (
         <header id={styles.header} role='banner'>
-
             <div className={styles.left}>
                 <h1 className={styles.logo}>
                     <Link to="/">

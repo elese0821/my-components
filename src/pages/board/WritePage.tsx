@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import instance from '../../services/instance';
 import useDialogStore from '../../stores/dialogStore';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import Button from '../../components/common/forms/Button';
-import Input from '../../components/common/forms/Input';
 import H1 from '../../components/common/tag/H1';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Editor } from "@ckeditor/ckeditor5-core";
@@ -12,6 +10,8 @@ import { SERVER_API_BASE_URL } from '../../services/endpoint';
 import { UploadAdapter, FileLoader } from "@ckeditor/ckeditor5-upload/src/filerepository";
 import React from 'react';
 import useModalStore from '../../stores/modalStore';
+import InputText from '../../components/common/forms/InputText';
+import Buttons from '../../components/common/forms/Buttons';
 function uploadAdapter(loader: FileLoader): UploadAdapter {
     return {
         upload: () => {
@@ -45,7 +45,7 @@ function uploadPlugin(editor: Editor) {
         return uploadAdapter(loader);
     };
 }
-export default function WritePage({ data, handleBoardData }) {
+export default function WritePage({ data, handleBoardData, getBoardList }) {
     const openDialog = useDialogStore(state => state.openDialog);
     const [fileList, setFileList] = useState([]);
     const [editor, setEditor] = useState("<p></p>");
@@ -81,6 +81,7 @@ export default function WritePage({ data, handleBoardData }) {
         }
     };
 
+    // [TODO] 수정
     const handleFileUpload = async (files) => {
         const fileData = new FormData();
         for (let i = 0; i < files.length; i++) {
@@ -109,6 +110,7 @@ export default function WritePage({ data, handleBoardData }) {
         }
     };
 
+    // 게시물 작성
     const handleSubmit = async (e) => {
         e.preventDefault();
         const sendContents = editor; // TipTap 에디터의 내용을 가져옵니다.
@@ -123,6 +125,7 @@ export default function WritePage({ data, handleBoardData }) {
             if (_res.status === 200) {
                 openDialog("작성성공😆");
                 closeModal();
+                getBoardList(); // 작성 후 목록 갱신
             } else {
                 openDialog("작성실패😂");
             }
@@ -132,6 +135,7 @@ export default function WritePage({ data, handleBoardData }) {
         }
     };
 
+    // 게시물 수정
     const handlePatch = (boardIdx) => async (e) => {
         e.preventDefault();
         const sendContents = editor; // TipTap 에디터의 내용을 가져옵니다.
@@ -145,6 +149,7 @@ export default function WritePage({ data, handleBoardData }) {
             });
             if (_res.status === 200) {
                 openDialog("작성성공😆");
+                getBoardList(); // 작성 후 목록 갱신
             } else {
                 openDialog("작성실패😂");
             }
@@ -158,7 +163,7 @@ export default function WritePage({ data, handleBoardData }) {
         <section>
             <H1 className="text-[20px] border-b border-gray4 p-1">글쓰기 / 수정</H1>
             <div className='p-4 px-8'>
-                <Input
+                <InputText
                     type="text"
                     name="title"
                     id="title"
@@ -168,11 +173,24 @@ export default function WritePage({ data, handleBoardData }) {
                     placeholder="글 제목"
                 />
                 <div id="editor" className='my-2'></div>
-                {/* <div className="mb-4"> */}
-                {/* <div className="mt-1 flex items-center"> */}
-                {/* <label
+                <CKEditor
+                    config={{
+                        extraPlugins: [uploadPlugin]
+                    }}
+                    editor={ClassicEditor}
+                    data={editor}
+                    onReady={(editor) => {
+                        setEditor(editor.getData());
+                    }}
+                    onChange={(event, editor) => {
+                        setEditor(editor.getData());
+                    }}
+                />
+                <div className='flex justify-between mt-2'>
+                    <div className="flex items-center">
+                        <label
                             htmlFor="file"
-                            className="bg-blue text-white px-4 py-2 rounded-md shadow-sm cursor-pointer hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="bg-gray1 text-white text-sm px-4 py-2 rounded-md shadow-sm cursor-pointer hover:bg-gray2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             파일 선택
                         </label>
@@ -192,36 +210,22 @@ export default function WritePage({ data, handleBoardData }) {
                                     </span>
                                 ))}
                             </p>
-                        )} */}
-                {/* </div> */}
-                {/* </div> */}
-
-                <CKEditor
-                    config={{
-                        extraPlugins: [uploadPlugin]
-                    }}
-                    editor={ClassicEditor}
-                    data={editor}
-                    onReady={(editor) => {
-                        setEditor(editor.getData());
-                    }}
-                    onChange={(event, editor) => {
-                        setEditor(editor.getData());
-                    }}
-                />
-                {Object.keys(data).length <= 0 ?
-                    <Button type="button" className="text-sm rounded mt-4 mx-auto" onClick={handleSubmit}>
-                        작성하기
-                    </Button> :
-                    <div className='flex justify-between mt-4'>
-                        <Button type="button" className="text-sm rounded" onClick={handlePatch(data.boardIdx)}>
-                            수정하기
-                        </Button>
-                        <Button type="button" className="text-sm rounded" onClick={() => handleBoardData("delete", data.boardIdx)}>
-                            삭제하기
-                        </Button>
+                        )}
                     </div>
-                }
+                    {Object.keys(data).length <= 0 ?
+                        <Buttons type="button" className="text-sm roundedauto" onClick={handleSubmit}>
+                            작성하기
+                        </Buttons> :
+                        <div className='flex justify-between gap-2'>
+                            <Buttons type="button" className="text-sm rounded" onClick={handlePatch(data.boardIdx)}>
+                                수정하기
+                            </Buttons>
+                            <Buttons type="button" className="text-sm rounded" onClick={() => handleBoardData("delete", data.boardIdx)}>
+                                삭제하기
+                            </Buttons>
+                        </div>
+                    }
+                </div>
             </div>
         </section>
     );

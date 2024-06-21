@@ -6,7 +6,7 @@ import useUserStore from "../../stores/userStore";
 import useDialogStore from "../../stores/dialogStore";
 import Kakao from "./Kakao";
 import Google from "./Google";
-import Input from "../common/forms/Input";
+import InputText from './../common/forms/InputText';
 
 const Login = () => {
     // 변수 선언
@@ -60,7 +60,7 @@ const Login = () => {
                     <fieldset className="flex flex-col gap-8 items-center">
                         <legend className="sr-only blind">로그인</legend>
                         <div className="w-full">
-                            <Input
+                            <InputText
                                 htmlFor="email"
                                 required="required"
                                 type="text"
@@ -75,7 +75,7 @@ const Login = () => {
                         </div>
                         <div className="w-full">
                             <label htmlFor="Pass" className="required blind">비밀번호</label>
-                            <input
+                            <InputText
                                 type="password"
                                 id="Pass"
                                 name="Pass"

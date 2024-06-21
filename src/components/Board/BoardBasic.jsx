@@ -34,12 +34,12 @@ export default function BoardBasic() {
 
     return (
         <>
-            <div className='text-sm w-full'>
+            <div className='text-sm w-full flex flex-col'>
                 <div className='flex justify-between mb-2'>
                     <BoardTabPage handleRow={handleRow} />
                     <BoardSearch handleSearch={handleSearch} />
                 </div>
-                <table className='divide-y divide-gray-200'>
+                <table className='divide-y divide-gray-200 w-full'>
                     <thead className='bg-gray1'>
                         <tr className='w-full'>
                             <th scope="col" className='text-center p-3 font-medium text-white uppercase tracking-wider border border-gray3'>No</th>
@@ -52,50 +52,57 @@ export default function BoardBasic() {
                         </tr>
                     </thead>
                     <tbody className='bg-white divide-y divide-gray-200'>
-                        {list.map((item, index) => (
-                            <tr key={index} className=''>
-                                <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.boardIdx}</td>
-                                <td className='text-center p-3 w-full whitespace-nowrap border border-gray3'>
-                                    {item.title}
-                                </td>
-                                <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.usrNm}</td>
-                                <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.replyCnt}</td>
-                                <td className='text-center p-3 whitespace-nowrap border border-gray3'>{!item.views && 0}</td>
-                                <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.regDt}</td>
-                                <td ref={popupRef} className='text-center p-1 whitespace-nowrap text-right font-medium border border-gray3 relative'>
-                                    <EllipsisHorizontalCircleIcon className="h-6 w-6 cursor-pointer" onClick={() => handleClick(index)} />
-                                    {openPopupIndex === index && (
-                                        <motion.ul
-                                            initial={{ // 처음 마운트 될 때 상태, 
-                                                opacity: 0,
-                                            }}
-                                            animate={{ // 애니메이션이 끝났을 때의 상태
-                                                opacity: 1,
-                                            }}
-                                            transition={{
-                                                ease: "easeOut",
-                                                duration: 0.3,
-                                            }}
-                                            className="absolute top-[100%] left-[-4px] w-20 rounded-md z-[2] shadow-md bg-gray4 z-[1]"
-                                            ref={popupListRef}
-                                        >
-                                            <li className="popup-triangle"></li>
-                                            {usrIdx === item.usrIdx ?
-                                                (
-                                                    <>
-                                                        <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("view", item.boardIdx)}>상세보기</li>
-                                                        <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("modify", item.boardIdx)}>수정</li>
-                                                        <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("delete", item.boardIdx)}>삭제</li>
-                                                    </>
-                                                ) : (
-                                                    <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("view", item.boardIdx)}>상세보기</li>
-                                                )
-                                            }
-                                        </motion.ul>
-                                    )}
-                                </td>
+                        {list.length > 0 ?
+                            <>
+                                {list.map((item, index) => (
+                                    <tr key={index} className=''>
+                                        <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.boardIdx}</td>
+                                        <td className='text-center p-3 w-full whitespace-nowrap border border-gray3'>
+                                            {item.title}
+                                        </td>
+                                        <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.usrNm}</td>
+                                        <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.replyCnt}</td>
+                                        <td className='text-center p-3 whitespace-nowrap border border-gray3'>{!item.views && 0}</td>
+                                        <td className='text-center p-3 whitespace-nowrap border border-gray3'>{item.regDt}</td>
+                                        <td ref={popupRef} className='text-center p-1 whitespace-nowrap text-right font-medium border border-gray3 relative'>
+                                            <EllipsisHorizontalCircleIcon className="h-6 w-6 cursor-pointer" onClick={() => handleClick(index)} />
+                                            {openPopupIndex === index && (
+                                                <motion.ul
+                                                    initial={{ // 처음 마운트 될 때 상태, 
+                                                        opacity: 0,
+                                                    }}
+                                                    animate={{ // 애니메이션이 끝났을 때의 상태
+                                                        opacity: 1,
+                                                    }}
+                                                    transition={{
+                                                        ease: "easeOut",
+                                                        duration: 0.3,
+                                                    }}
+                                                    className="absolute top-[100%] left-[-4px] w-20 rounded-md z-[2] shadow-md bg-gray4 z-[1]"
+                                                    ref={popupListRef}
+                                                >
+                                                    <li className="popup-triangle"></li>
+                                                    {usrIdx === item.usrIdx ?
+                                                        (
+                                                            <>
+                                                                <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("view", item.boardIdx)}>상세보기</li>
+                                                                <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("modify", item.boardIdx)}>수정</li>
+                                                                <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("delete", item.boardIdx)}>삭제</li>
+                                                            </>
+                                                        ) : (
+                                                            <li className="block w-full px-4 py-2 text-left text-sm hover:text-gray2 transition cursor-pointer" onClick={() => handleBoardData("view", item.boardIdx)}>상세보기</li>
+                                                        )
+                                                    }
+                                                </motion.ul>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </> : <tr>
+                                <td colSpan={7} className='text-center p-4 text-md'>게시물이 없습니다.</td>
                             </tr>
-                        ))}
+                        }
+
                     </tbody>
                 </table>
             </div>

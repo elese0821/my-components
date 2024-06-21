@@ -1,6 +1,9 @@
-import React from 'react';
 
-export default function Input(props) {
+import { Description, Field, Input, Label } from '@headlessui/react'
+import clsx from 'clsx'
+import React, { useEffect } from 'react'
+
+export default function InputText(props) {
     const {
         defaultValue,
         value,
@@ -12,10 +15,12 @@ export default function Input(props) {
         onChange,
         ...rest
     } = props;
-
     return (
-        <input
-            className={`p-2 bg-gray-100 rounded focus:border-peach ${className}`}
+        <Input
+            className={clsx(
+                'block w-full rounded-sm  py-1.5 px-3 text-sm/6 text-black border border-gray4',
+                'focus:outline-none data-[focus]:outline-1 data-[focus]:-outline-offset-1 data-[focus]:outline-black/25'
+            )}
             type={type}
             value={value}
             defaultValue={defaultValue}
@@ -27,3 +32,4 @@ export default function Input(props) {
         />
     );
 }
+
