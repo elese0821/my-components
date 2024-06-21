@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import instance from '../../services/instance';
 import Quest from './Quest';
-import Button from '../common/forms/Button';
+import Buttons from '../common/forms/Buttons';
 
 export default function SurveyDetail() {
     const id = useLocation();
@@ -148,7 +148,7 @@ export default function SurveyDetail() {
                 }
                 )}
             </div>
-            <Button onClick={handelSubmit}>제출하기</Button>
+            <Buttons onClick={handelSubmit}>제출하기</Buttons>
         </div>
     )
 }

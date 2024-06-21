@@ -27,7 +27,6 @@ import SurveyPage from './pages/survey/SurveyPage';
 import SurveyDetail from './components/survey/SurveyDetail';
 import SurveyList from './components/survey/SurveyList';
 import EtcPage from './pages/Etc/EtcPage';
-import WritePage from './pages/board/WritePage';
 
 export default function App() {
   const { isOpen } = useDialogStore();
