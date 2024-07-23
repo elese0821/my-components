@@ -8,7 +8,7 @@ export default function Kakao() {
     return (
         <button
             onClick={loginHandler}
-            className="w-auto block bg-gray-400 text-center text-white p-3 mt-5"
+            className=""
         >카카오 로그인</button>
     )
 }

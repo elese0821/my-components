@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import instance from '../../services/instance';
 import axios from 'axios';
 import useDialogStore from '../../stores/dialogStore';
-import useUserStore from '../../stores/userStore';
+import useUserStore from '../../stores/userStore.ts';
 import Loading from './Loading';
 
 const Redirection = () => {

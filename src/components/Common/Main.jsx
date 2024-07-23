@@ -1,5 +1,5 @@
-import Category from "./Category"
 
+import Category from './Category';
 const Main = ({ children }) => {
     return (
         <main id='main' role='main'>

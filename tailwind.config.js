@@ -1,8 +1,12 @@
+import withMT from "@material-tailwind/react/utils/withMT";
+
 /** @type {import('tailwindcss').Config} */
-export default {
+export default withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -21,8 +25,9 @@ export default {
         peach: '#ecb38d',
         aqua: '#a0ded0',
         paleAqua: '#c0ebe1',
-        purple: '#967BDC ',
-        purple2: '#872ed1 ',
+        purple: '#967BDC',
+        purpler: 'rgb(44 29 83 / 88%)',
+        purple2: '#872ed1',
         lightestBlue: '#f8fcff',
         blue: '#4c88e9',
         black: '#242e39',
@@ -36,7 +41,5 @@ export default {
       },
     }
   },
-  variants: {},
   plugins: [],
-}
-
+});

@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function BoardTabPage({ handleRow, className }) {
-    const rows = [10, 20, 30, 40, 50];
-    const [curRow, setCurRow] = useState(10);
+interface BoardTabProps {
+    handleRow: (row: number) => void;
+    className?: string;
+}
+
+export default function BoardTabPage({ handleRow, className }: BoardTabProps) {
+    const rows: number[] = [10, 20, 30, 40, 50];
+    const [curRow, setCurRow] = useState<number>(10);
+
+    const handleRowChange = (el: React.SetStateAction<number>) => {
+        setCurRow(el);
+    }
+
+    useEffect(() => {
+        handleRow(curRow);
+    }, [curRow]);
 
     return (
         <Menu as="div" className={`relative inline-block text-left ${className}`}>
@@ -37,8 +50,7 @@ export default function BoardTabPage({ handleRow, className }) {
                                             focus ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                             'block px-4 py-2 text-sm',
                                         )}
-                                        onClick={() => handleRow(el)}
-                                        onBlur={() => setCurRow(el)}
+                                        onClick={() => handleRowChange(el)}
                                     >
                                         {el}
                                     </button>

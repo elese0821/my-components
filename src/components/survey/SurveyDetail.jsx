@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import instance from '../../services/instance';
 import Quest from './Quest';
 import Buttons from '../common/forms/Buttons';
+import Back from '../common/Back';
 
 export default function SurveyDetail() {
     const id = useLocation();
@@ -33,7 +34,8 @@ export default function SurveyDetail() {
             try {
                 const _res = await instance.get("/user/survey/info/result", {
                     params: {
-                        surveyIdx: params
+                        surveyIdx: params,
+                        finishSurvey: finishSurvey
                     }
                 });
                 // console.log(_res)
@@ -64,7 +66,6 @@ export default function SurveyDetail() {
                 console.log(e);
             }
         }
-
     }
 
     const handelSubmit = async () => {
@@ -115,7 +116,7 @@ export default function SurveyDetail() {
 
     // 데이터 그룹화 및 변환
     const groupedData = surveyData.reduce((acc, cur) => {
-        const { questIdx, questOrderNo, questTitle, questDesc, questType, selIdx, answerTitle, answerWeight, answerOrderNo } = cur;
+        const { questIdx, questOrderNo, questTitle, questDesc, questType, userAnswer, selIdx, answerTitle, answerWeight, answerOrderNo } = cur;
         if (!acc[questIdx]) {
             acc[questIdx] = {
                 questTitle: questTitle,
@@ -123,6 +124,8 @@ export default function SurveyDetail() {
                 questIdx: questIdx,
                 questType: questType,
                 questOrderNo: questOrderNo,
+                userAnswer: userAnswer,
+                finishSurvey: finishSurvey,
                 answers: []
             };
         }
@@ -136,19 +139,28 @@ export default function SurveyDetail() {
     }, {});
 
     return (
-        <div className=''>
-            <h1 className='text-3xl py-2 border-b border-slate-700'>{title}</h1>
+        <div>
+            <Back />
+            <div className='flex justify-between items-center'>
+                <h1 className='text-3xl py-2 border-b border-slate-700'>{title}</h1>
+                {finishSurvey === "Y" && <p className='bg-gray1 p-2 rounded text-white'>설문완료</p>}
+            </div>
             <div className='bg-gray-200 rounded-lg p-4 min-h-24  my-6'>{contents}</div>
             <div className='p-2 grid grid-cols-1 gap-6'>
                 {Object.keys(groupedData).map((questIdx) => {
                     const data = groupedData[questIdx]
                     return (
-                        <Quest key={questIdx} questData={data} handleAnswer={handleAnswer} />
+                        <Quest key={questIdx} questData={data} handleAnswer={handleAnswer} finishSurvey={finishSurvey} />
                     )
                 }
                 )}
             </div>
-            <Buttons onClick={handelSubmit}>제출하기</Buttons>
+            {finishSurvey !== "Y" &&
+                <Buttons onClick={handelSubmit}
+                    disabled={finishSurvey === "Y" && true}
+                    className='m-auto mt-6 text-md'
+                >제출하기</Buttons>
+            }
         </div>
     )
 }

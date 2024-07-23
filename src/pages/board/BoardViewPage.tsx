@@ -2,20 +2,36 @@ import React from 'react'
 import H1 from '../../components/common/tag/H1'
 import Comments from '../../components/common/comments/Comments';
 import instance from '../../services/instance';
+import useDialogStore from '../../stores/dialogStore';
 
 export default function BoardViewPage({ data }) {
-    const { title, usrNm, views, contents, regDt, boardIdx, fileIdx } = data || null;
-
-    // /file/download / { fileIdx }
+    const { title, usrNm, views, contents, regDt, boardIdx, fileIdx, fileOrgNm } = data || null;
+    const { openDialog, closeDialog } = useDialogStore()
 
     const getFile = async (fileIdx) => {
-        const _res = await instance.get(`/file/download/${fileIdx}`);
-        if (_res.status === 200) {
-            return _res.data;
-        } else {
-            return null;
+        openDialog("파일 다운로드중입니다.");
+        try {
+            const _res = await instance.get(`/file/download/${fileIdx}`, {
+                responseType: 'blob',
+            });
+            if (_res.status === 200) {
+                console.log(_res);
+                const url = window.URL.createObjectURL(new Blob([_res.data], { type: _res.headers['content-type'] }));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', fileOrgNm || 'downloaded_file'); // 파일 이름을 설정합니다.
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                openDialog("파일 다운 완료");
+            } else {
+                console.error('파일 다운로드 실패');
+            }
+        } catch (e) {
+            console.error('파일 다운로드 실패', e);
+            openDialog("다운로드 실패")
         }
-    }
+    };
 
     return (
         <section>
@@ -47,14 +63,14 @@ export default function BoardViewPage({ data }) {
                         <tr>
                             <th className="p-2 bg-gray4">첨부파일</th>
                             <td className="p-2">
-                                {fileIdx && fileIdx.map((el, i) => (
-                                    <div
-                                        key={i}
-                                        onClick={() => getFile(el)}
+                                {fileIdx &&
+                                    <span
+                                        onClick={() => getFile(fileIdx)}
+                                        className='hover:underline cursor-pointer'
                                     >
-                                        {el}
-                                    </div>
-                                ))}
+                                        {fileOrgNm}
+                                    </span>
+                                }
                             </td>
                         </tr>
                     </tbody>

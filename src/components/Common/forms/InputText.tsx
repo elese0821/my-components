@@ -1,35 +1,51 @@
+import React, { forwardRef } from 'react';
+import { Input } from '@material-tailwind/react';
 
-import { Description, Field, Input, Label } from '@headlessui/react'
-import clsx from 'clsx'
-import React, { useEffect } from 'react'
+interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label?: string;
+    wrapStyle?: string;
+    variant?: "standard" | "outlined" | "static";
+}
 
-export default function InputText(props) {
-    const {
+const InputText = forwardRef<HTMLInputElement, InputTextProps>((
+    {
         defaultValue,
         value,
-        type = 'text',
+        type,
         className = '',
         placeholder,
         autoComplete,
         name,
         onChange,
+        onClick,
+        label,
+        required,
+        variant,
         ...rest
-    } = props;
+    },
+    ref,
+) => {
     return (
         <Input
-            className={clsx(
-                'block w-full rounded-sm  py-1.5 px-3 text-sm/6 text-black border border-gray4',
-                'focus:outline-none data-[focus]:outline-1 data-[focus]:-outline-offset-1 data-[focus]:outline-black/25'
-            )}
+            className={`disabled:bg-gray4 p-2 ${className}`}
+            label={label}
             type={type}
             value={value}
+            color="deep-purple"
             defaultValue={defaultValue}
             placeholder={placeholder}
             autoComplete={autoComplete}
             name={name}
+            ref={ref}
             onChange={onChange}
+            onClick={onClick}
+            variant={!variant ? "standard" : variant}
+            required={required}
             {...rest}
         />
     );
-}
+});
 
+InputText.displayName = 'InputText';
+
+export default InputText;

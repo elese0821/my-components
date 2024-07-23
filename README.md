@@ -13,7 +13,7 @@ npm install @fullcalendar/core // 일정 관련 라이브러리  https://fullcal
 npm install @fullcalendar/react  // 일정 관련 라이브러리
 npm install @fullcalendar/daygrid // 일정 관련 라이브러리
 npm install @heroicons/react // icon 라이브러리 Tailwind CSS와 사용하기좋음
-
+npm i react-calendar
 npm install dayjs // 시간 라이브러리 https://day.js.org/ 
 // https://velog.io/@hongsoom/Library-day.js-%EB%82%A0%EC%A7%9C-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC
 
@@ -36,12 +36,12 @@ npm install stompjs //STOMP(간단한 텍스트 지향 메시징 프로토콜)�
 ```
 ```javascript
 사용제외
-npm install @mui/material @emotion/react @emotion/styled // ui 라이브러리
+npm install @mui/material @emotion/react @emotion/styled @mui/styled-engine // ui 라이브러리
 npm install @mui/icons-material
 npm install @fontsource/roboto
 
 npm install @mui/x-data-grid // 데이터 그리드(테이블) https://mui.com/x/react-data-grid/getting-started/#installation 
-npm install @mui/material @emotion/react @emotion/styled // 
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material // 
 
 npm install classnames // module css 중복 사용시 필요
 npm install react-geocode // 주소 좌표 변환
@@ -49,9 +49,16 @@ npm install react-cookie // 쿠키사용
 npm install @tiptap/react @tiptap/pm @tiptap/starter-kit // 글쓰기 에디터
 npm install @tiptap/extension-text
 npm install @tiptap/extension-color
-npm i @tiptap/core @tiptap/extension-bold @tiptap/extension-bubble-menu @tiptap/extension-code @tiptap/extension-document @tiptap/extension-history @tiptap/extension-italic @tiptap/extension-paragraph @tiptap/extension-strike @tiptap/extension-text @tiptap/extension-underline
 npm i @material-tailwind/react // 테일윈드 라이브러리
 npm install @headlessui/react // headless ui 리액트용  css라이브러리
+
+npm install pdfjs-dist@3.4.120 @react-pdf-viewer/core@3.12.0//pdf-viewer
+
+npm install openai@^4.0.0 //gpt api
+
+npm install @mui/x-data-grid // 표
+npm install @mui/x-date-pickers // 일정
+npm install @mui/x-charts //차트
 ```
 ### 프로젝트 특징
 reactjs vite로 빌드 

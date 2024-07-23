@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import instance from '../../services/instance';
-import useDialogStore from '../../stores/dialogStore';
-import { useNavigate, useOutletContext } from 'react-router-dom';
 import H1 from '../../components/common/tag/H1';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Editor } from "@ckeditor/ckeditor5-core";
@@ -12,13 +10,15 @@ import React from 'react';
 import useModalStore from '../../stores/modalStore';
 import InputText from '../../components/common/forms/InputText';
 import Buttons from '../../components/common/forms/Buttons';
+import useDialogStore from '../../stores/dialogStore';
+
 function uploadAdapter(loader: FileLoader): UploadAdapter {
     return {
         upload: () => {
             return new Promise(async (resolve, reject) => {
                 try {
                     const file = await loader.file;
-                    console.log(file)
+                    console.log(file);
                     const fileData = new FormData();
                     fileData.append('file[]', file);
 
@@ -45,6 +45,7 @@ function uploadPlugin(editor: Editor) {
         return uploadAdapter(loader);
     };
 }
+
 export default function WritePage({ data, handleBoardData, getBoardList }) {
     const openDialog = useDialogStore(state => state.openDialog);
     const [fileList, setFileList] = useState([]);
@@ -52,9 +53,9 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
     const { closeModal } = useModalStore();
 
     const [formData, setFormData] = useState({
-        file: null,
         title: '',
-        contents: ''
+        contents: '',
+        files: ''
     });
 
     useEffect(() => {
@@ -62,17 +63,17 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
             setFormData({
                 title: data.title,
                 contents: data.contents,
-                file: null
+                files: data.files
             });
             setEditor(data.contents);
         }
-    }, [data])
+    }, [data]);
 
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
+    // FIXME: 수정
+    const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+        const { name, value, files } = e.target as HTMLInputElement;
         if (files) {
             setFileList(files);
-            handleFileUpload(files);
         } else {
             setFormData(prev => ({
                 ...prev,
@@ -81,13 +82,12 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
         }
     };
 
-    // [TODO] 수정
-    const handleFileUpload = async (files) => {
+    // FIXME: 수정
+    const handleFileUpload = async (fileList: Array<string>): Promise<number | null> => {
         const fileData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-            fileData.append('file[]', files[i]);
+        for (let i = 0; i < fileList.length; i++) {
+            fileData.append('file[]', fileList[i]);
         }
-
         try {
             const response = await instance.post("/file/upload", fileData, {
                 headers: {
@@ -95,32 +95,26 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
                 }
             });
             if (response.data) {
-                const fileIdxList = response.data.fileIdxList;
-                setFormData(prev => ({
-                    ...prev,
-                    file: fileIdxList
-                }));
-                openDialog("파일 업로드 성공🌟");
+                console.log("파일 업로드 성공🌟");
+                return response.data.fileIdxList[0]; // 파일 인덱스를 반환
             } else {
-                openDialog("파일 업로드 실패😂");
+                console.log("파일 업로드 실패😂");
+                return null;
             }
         } catch (error) {
             console.error('Error posting board info:', error);
-            alert("서버 오류가 발생했습니다.");
+            return null;
         }
     };
 
-    // 게시물 작성
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const sendContents = editor; // TipTap 에디터의 내용을 가져옵니다.
-        const { title, file } = formData;
-
+    const boardSubmit = async (fileIdx: string): Promise<void> => {
+        const sendContents = editor; // CKEditor 에디터의 내용을 가져옵니다.
+        const { title } = formData;
         try {
             const _res = await instance.post("/user/board/info", {
                 title: title,
                 contents: sendContents,
-                file: file
+                fileIdx: fileIdx
             });
             if (_res.status === 200) {
                 openDialog("작성성공😆");
@@ -133,28 +127,47 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
             openDialog("작성실패😂");
             console.log(error);
         }
+    }
+
+    // 게시물 작성
+    const handleSubmit = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
+        e.preventDefault();
+        let fileIdx = formData.files;
+        if (fileList.length > 0) {
+            fileIdx = await handleFileUpload(fileList); // 업로드 결과를 기다림
+        }
+        if (fileIdx) {
+            boardSubmit(fileIdx);
+        } else {
+            openDialog("파일 업로드 실패로 인해 게시물 작성 중단");
+            return;
+        }
     };
 
     // 게시물 수정
-    const handlePatch = (boardIdx) => async (e) => {
+    const handlePatch = (boardIdx: number) => async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
         e.preventDefault();
-        const sendContents = editor; // TipTap 에디터의 내용을 가져옵니다.
-        const { title, file } = formData;
+        if (fileList.length > 0) {
+            await handleFileUpload(fileList);
+        }
+        const sendContents = editor; // CKEditor 에디터의 내용을 가져옵니다.
+        const { title, files } = formData;
+
         try {
             const _res = await instance.patch("/user/board/info", {
                 boardIdx: boardIdx,
                 title: title,
                 contents: sendContents,
-                file: file
+                fileIdx: files
             });
             if (_res.status === 200) {
-                openDialog("작성성공😆");
-                getBoardList(); // 작성 후 목록 갱신
+                openDialog("수정성공😆");
+                getBoardList(); // 수정 후 목록 갱신
             } else {
-                openDialog("작성실패😂");
+                openDialog("수정실패😂");
             }
         } catch (error) {
-            openDialog("작성실패😂");
+            openDialog("수정실패😂");
             console.log(error);
         }
     }
@@ -164,12 +177,12 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
             <H1 className="text-[20px] border-b border-gray4 p-1">글쓰기 / 수정</H1>
             <div className='p-4 px-8'>
                 <InputText
+                    label='Title'
                     type="text"
                     name="title"
                     id="title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="글 제목"
                 />
                 <div id="editor" className='my-2'></div>
@@ -190,7 +203,7 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
                     <div className="flex items-center">
                         <label
                             htmlFor="file"
-                            className="bg-gray1 text-white text-sm px-4 py-2 rounded-md shadow-sm cursor-pointer hover:bg-gray2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="h-full bg-gray1 text-white text-sm items-center transition px-4 flex rounded-md shadow-sm cursor-pointer hover:bg-gray2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             파일 선택
                         </label>
@@ -213,7 +226,7 @@ export default function WritePage({ data, handleBoardData, getBoardList }) {
                         )}
                     </div>
                     {Object.keys(data).length <= 0 ?
-                        <Buttons type="button" className="text-sm roundedauto" onClick={handleSubmit}>
+                        <Buttons type="button" className="text-sm rounded" onClick={handleSubmit}>
                             작성하기
                         </Buttons> :
                         <div className='flex justify-between gap-2'>
