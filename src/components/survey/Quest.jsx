@@ -1,10 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import RadioGroups from '../common/forms/RadioGroups';
-import Radio from './../common/forms/Radio';
+import Radio from '../common/forms/Radio';
 
-export default function Quest({ questData, handleAnswer }) {
+export default function Quest({ questData, handleAnswer, finishSurvey }) {
+    const [finishState, setFinishState] = useState(false);
+    const did = questData.userAnswer;
 
     const handleAnswerChange = (e) => {
+        // console.log(questData)
+        // questData.answer(el.selIdx===questData.userAnswer)
+
         if (questData.questType === "S") {
             handleAnswer(
                 questData.questIdx,
@@ -18,11 +23,13 @@ export default function Quest({ questData, handleAnswer }) {
                 e.target.value,
             )
         }
-
     }
-    // 부모컴포넌트에 답 모아서 올려야댐
+
     useEffect(() => {
-    }, [])
+        if (finishSurvey === "Y") {
+            setFinishState(true);
+        }
+    }, [finishSurvey]);
 
     return (
         <div className='p-4 rounded-xl flex flex-col gap-2 shadow-md'>
@@ -40,41 +47,42 @@ export default function Quest({ questData, handleAnswer }) {
                 }
             </div>
             <div className='bg-gray-300 p-2 rounded'>{questData.questDesc}</div>
-
             {questData.questType === "S" ? (
                 <form>
                     {/* selIdx: {answer.selIdx}, answerTitle: {answer.answerTitle}, answerWeight: {answer.answerWeight}, answerOrderNo: {answer.answerOrderNo} */}
                     <RadioGroups>
-                        {questData.answers.map((el) => (
-                            <div key={el.selIdx} className='flex gap-2 w-full'>
-                                <Radio
-                                    name={`question-${questData.questOrderNo}`}
-                                    value={el.selIdx}
-                                    checked={handleAnswerChange === String(el.selIdx)}
-                                    onChange={handleAnswerChange}
-                                >
-                                    <span className='w-2 block flex items-center mr-1'>
-                                        {el.answerOrderNo}.
-                                    </span>
-                                    {el.answerTitle}
-                                </Radio>
-                            </div>
-                        ))
+                        {questData.answers.map((el) => {
+                            return (
+                                <div key={el.selIdx} className='flex gap-2 w-full'>
+                                    <Radio
+                                        name={`question-${questData.questOrderNo}`}
+                                        value={el.selIdx}
+                                        disabled={!finishState ? false : true}
+                                        checked={!finishState ? questData.userAnswer === el.selIdx : el.selIdx === did}
+                                        onChange={!finishState ? handleAnswerChange : undefined}
+                                    >
+                                        <span className='w-2 block flex items-center mr-1'>
+                                            {el.answerOrderNo}.
+                                        </span>
+                                        {el.answerTitle}
+                                    </Radio>
+                                </div>
+                            )
                         }
+                        )}
                     </RadioGroups>
                 </form>
             ) : (
                 <form>
-                    {/* selIdx: {answer.selIdx}, answerTitle: {answer.answerTitle}, answerWeight: {answer.answerWeight}, answerOrderNo: {answer.answerOrderNo} */}
                     <textarea
                         className='border w-full p-2 border-gray-400 rounded resize-none'
                         placeholder='답변을 입력해주세요.'
                         onChange={handleAnswerChange}
+                        value={questData.userAnswer || ''}
+                        disabled={!finishState ? false : true}
                     ></textarea>
                 </form>
-            )
-            }
-
+            )}
         </div >
     );
 }

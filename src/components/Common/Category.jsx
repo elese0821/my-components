@@ -1,48 +1,69 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import config from '../../utils/config/system_config.json';
 import { motion } from 'framer-motion';
 import {
     Tabs,
     TabsHeader,
     Tab,
-    TabPanel,
 } from "@material-tailwind/react";
+import useStatusStore from '../../stores/statusStore';
 
 const variants = {
-    open: { opacity: 1, display: 'flex' },
-    closed: { opacity: 0, display: 'none' },
+    open: { opacity: 1, display: "flex" },
+    closed: { opacity: 0, display: "none" },
 };
 
 export default function Category() {
     const [showMenu, setShowMenu] = useState(null);
     const subMenu = config.menu.map((el) => el.submenu);
-    // dsad
-    const [activeTab, setActiveTab] = useState("html");
+    const [activeTab, setActiveTab] = useState("");
+    const [activeSubTab, setActiveSubTab] = useState(null); // 서브메뉴 액티브 관리
     const navigate = useNavigate();
+    const { path } = useStatusStore();
+    const { pathname } = useLocation();
 
     const handleTabClick = (path, i) => {
         navigate(path);
         setActiveTab(path);
         setShowMenu(showMenu === i ? null : i);
+        setActiveSubTab(null); //서브메뉴 초기화
     }
+
+    const handleSubTabClick = (subPath) => {
+        setActiveSubTab(subPath);
+    }
+    useEffect(() => {
+        console.log(pathname)
+    }, [pathname])
+
+    useEffect(() => {
+        setActiveTab("")
+        setActiveSubTab(null);
+    }, [path]);
 
     return (
         <>
-            <Tabs value={activeTab} className="relative">
+            <Tabs value={activeTab} className="relative overflow-visible">
                 <TabsHeader
                     className="rounded-none border-b border-blue-gray-50 pt-0 bg-rgba"
-                    indicatorProps={{
-                        className:
-                            "bg-transparent border-t-4 border-purple shadow-none rounded-none",
-                    }}
+                    indicatorProps={
+                        pathname !== '/' ?
+                            {
+                                className:
+                                    "bg-transparent border-t-4 border-purple shadow-none rounded-none",
+                            } : {
+                                className:
+                                    "bg-transparent border-none shadow-none ",
+                            }
+                    }
                 >
                     {config.menu.map(({ title, path }, i) => (
                         <div key={`tab-${path}`} className='w-full' >
                             <Tab
                                 value={path}
                                 onClick={() => handleTabClick(path, i)}
-                                className={`leading-9 ${activeTab === path && "text-purple"}`}
+                                className={`text-white leading-9 font-medium font-[Quicksand] ${activeTab === path && "text-purple"}`}
                             >
                                 {title}
                             </Tab>
@@ -53,15 +74,21 @@ export default function Category() {
                                     animate={showMenu === i ? 'open' : 'closed'}
                                     variants={variants}
                                     transition={{ duration: 0.2 }}
-                                    className='absolute left-0 w-full bg-gray-800 text-white flex gap-2 text-sm top-full justify-center'
+                                    className='absolute left-0 w-full bg-purpler text-white flex text-sm top-full justify-center z-4 items-center'
                                     key={`submenu-${path}-${i}`}
                                 >
                                     {subMenu[i].map((subEl, j) => (
-                                        <li key={`subEl-${subEl.cateId}-${j}`} >
+                                        <li key={`subEl-${subEl.cateId}-${j}`}>
                                             {subEl.cateId &&
-                                                <Link to={`${path}/${subEl.cateId}`} className='p-4 block cursor-pointer'>
-                                                    {subEl.name}
-                                                </Link>
+                                                <div>
+                                                    <Link
+                                                        to={`${path}/${subEl.cateId}`}
+                                                        className={`p-2 px-4 cursor-pointer block transition rounded-sm hover:bg-purpler ${activeSubTab === subEl.cateId && "bg-purpler"}`}
+                                                        onClick={() => handleSubTabClick(subEl.cateId)}
+                                                    >
+                                                        {subEl.name}
+                                                    </Link>
+                                                </div>
                                             }
                                         </li>
                                     ))}
@@ -71,6 +98,7 @@ export default function Category() {
                     ))}
                 </TabsHeader>
             </Tabs>
+
             {/* <ul className='w-full bg-gray-800 text-white p-8 flex gap-2 justify-evenly'>
                 {config.menu.map((el, i) => (
                     <li key={el.title}>

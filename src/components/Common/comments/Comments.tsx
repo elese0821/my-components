@@ -59,8 +59,9 @@ export default function Comments({ className, boardIdx }) {
             } catch (e) {
                 console.log(e)
             }
-        }
-        openDialog("댓글을 입력☀️")
+        } else {
+            openDialog("댓글을 입력☀️");
+        };
     }
     useEffect(() => {
         getReplyList();
@@ -79,12 +80,12 @@ export default function Comments({ className, boardIdx }) {
                 </thead>
                 {commentList.length > 0 ?
                     <>
-                        {commentList.map((el, i) => (
+                        {commentList.map(({ writerNm, contents, regDt }, i) => (
                             <tbody key={i}>
                                 <tr>
-                                    <td className='border border-gray3 p-0.5 pt-1'>{el.writerNm}</td>
-                                    <td className='border border-gray3 p-0.5 pt-1'>{el.contents}</td>
-                                    <td className='border border-gray3 p-0.5 pt-1'>{el.regDt}</td>
+                                    <td className='border border-gray3 p-0.5 pt-1'>{writerNm}</td>
+                                    <td className='border border-gray3 p-0.5 pt-1'>{contents}</td>
+                                    <td className='border border-gray3 p-0.5 pt-1'>{regDt}</td>
                                 </tr>
                             </tbody>
                         ))}
@@ -99,7 +100,10 @@ export default function Comments({ className, boardIdx }) {
             </table>
             <Pagination page={page} totalPages={totalPages} setPage={setPage} />
             <form onSubmit={addComment} className='flex mt-4'>
-                <InputText onChange={handleCommentChange} value={currentComment} />
+                <InputText
+                    label='댓글🥺'
+                    className='rounded-none'
+                    onChange={handleCommentChange} value={currentComment} />
                 <Buttons type="button" className='rounded-none' onClick={addComment}>등록</Buttons>
             </form>
         </div >

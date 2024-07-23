@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react"
 import instance from "../../services/instance"
 import { useLocation, useNavigate } from "react-router-dom"
-import useUserStore from './../../stores/userStore';
+import useUserStore from '../../stores/userStore.ts';
 import { SERVER_API_BASE_URL, WEB_SOCKET_API_BASE_URL } from "../../services/endpoint";
 import { Stomp } from "@stomp/stompjs";
 import styles from "./ChatRoom.module.scss";
 import useDialogStore from "../../stores/dialogStore";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import Buttons from "../common/forms/Buttons";
+import InputText from './../common/forms/InputText';
 
 export default function ChatRoom() {
     const location = useLocation();
     const { channelId, chatName } = location.state || null;
     const [messages, setMessages] = useState([]); // 채팅 메세지 기록
-    const { usrIdx, userId, token } = useUserStore(state => state);
+    const { usrIdx, token } = useUserStore(state => state);
     const navigate = useNavigate();
     const openDialog = useDialogStore(state => state.openDialog);
 
@@ -87,7 +88,8 @@ export default function ChatRoom() {
     };
 
     // 새 메시지를 보내는 함수
-    const sendMessage = (sendType) => {
+    const sendMessage = (sendType) => (e) => {
+        e.preventDefault();
         if (sendType === "C" && message === "") {
             openDialog("메세지를 입력하세요..🥲");
             return;
@@ -118,11 +120,6 @@ export default function ChatRoom() {
         }
     }
 
-    const activeEnter = (e) => {
-        if (e.key === "Enter") {
-            sendMessage("C");
-        }
-    }
 
     // 파일선택시
     const handleFileChange = async (e) => {
@@ -171,8 +168,8 @@ export default function ChatRoom() {
 
     return (
         <div className={styles.chat__room}>
-            <div className="flex flex-col bg-gray-600 rounded">
-                <div className="flex w-full bg-blue-500 justify-between items-center p-0.5 rounded-t">
+            <div className="flex flex-col bg-gray1 rounded">
+                <div className="flex w-full bg-blue justify-between items-center p-0.5 rounded-t">
                     <h2 className="text-white p-1.5 bold text-lg">{chatName}</h2>
                     <XMarkIcon className="h-8 w-8 cursor-pointer text-white p-1.5 hover:text-gray-300 transition" onClick={handleLocation} />
                 </div>
@@ -195,10 +192,10 @@ export default function ChatRoom() {
                                             <p className={`rounded-lg text-sm text-white mb-1 ${isCurrentUsr ? 'text-right' : 'text-left'}`}>{el.usrNm}</p>
 
                                             {!chatFileType ?
-                                                <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray-700' : 'bg-gray-800'
+                                                <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray2' : 'bg-red'
                                                     }`}>{el.contents}</p>
                                                 :
-                                                <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray-700' : 'bg-gray-800'}`}>파일 다운로드 : <a href={`${SERVER_API_BASE_URL}/file/download/${el.contents}`} className="text-blue-500 underline">{el.fileName}</a>
+                                                <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray2' : 'bg-red'}`}>파일 다운로드 : <a href={`${SERVER_API_BASE_URL}/file/download/${el.contents}`} className="text-blue-500 underline">{el.fileName}</a>
                                                 </p>
                                             }
                                             <p className={`rounded-lg text-sm text-white mt-1 ${isCurrentUsr ? 'text-right' : 'text-left'}`}>{el.regDt}</p>
@@ -215,31 +212,35 @@ export default function ChatRoom() {
                 </div>
                 <div className="p-4">
                     {/* 입력 필드와 전송 버튼 */}
-                    <div className="flex">
-                        <label htmlFor="file" className="text-sm font-medium text-gray-700 flex items-center bg-blue-500 p-2 hover:bg-blue-700 transition cursor-pointer">
+                    <form className="flex gap-4" onSubmit={sendMessage(sendFileType ? "F" : "C")}>
+                        <label htmlFor="file" className="text-sm font-medium text-gray4 flex items-center bg-blue p-2 hover:bg-blue-700 transition cursor-pointer">
                             <PlusIcon className="h-6 w-6 text-white" />
                         </label>
                         <input
                             type="file"
                             name="file"
                             id="file"
-                            className="blind"
+                            className="hidden"
                             onChange={handleFileChange}
                             ref={fileInputRef}
-                        // multiple
                         />
-                        <input
-                            type="text"
-                            placeholder="Type a message..."
-                            className="flex-1 py-2 px-4 bg-gray-200 outline-none focus:ring-2 focus:ring-blue-500"
+                        <InputText
+                            className="rounded-none active-border-none active-outline-none text-white"
+                            variant="standard"
+                            id="outlined-basic"
+                            label="message"
+                            placeholder="메세지 입력"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            onKeyUp={(e) => activeEnter(e)}
                         />
-                        <Buttons className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 transition" onClick={() => sendMessage(sendFileType ? "F" : "C")}>
+                        <Buttons
+                            className="bg-blue rounded-none"
+                            type="submit"
+                            onClick={sendMessage(sendFileType ? "F" : "C")}
+                        >
                             전송
                         </Buttons>
-                    </div>
+                    </form>
                 </div>
             </div >
         </div >
