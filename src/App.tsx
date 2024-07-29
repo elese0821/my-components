@@ -35,6 +35,10 @@ import BoardGrid from './components/board/BoardGrid';
 import useStatusStore from './stores/statusStore';
 import useDialogStore from './stores/dialogStore';
 import Header from './components/common/Header';
+import NotFound from './pages/NotFound';
+import Error from './pages/Error';
+import MSPage from './pages/Etc/MSPage';
+import ASPage from './pages/Etc/ASPage';
 
 export default function App() {
   const { isOpen } = useDialogStore();
@@ -54,10 +58,9 @@ export default function App() {
       <Header />
       <Main>
         <Routes>
-          <Route index element={<Home />} />
-
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<JoinPage />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<JoinPage />} />
 
           {/* 채팅 */}
           <Route path="/chat/*" element={<ChatPage />}>
@@ -68,49 +71,51 @@ export default function App() {
           <Route path="/map" element={<MapPage />} />
 
           {/* 카카오 리다이렉션 */}
-          <Route path='/auth/:kakaoCode' element={<Redirection />} />
+          <Route path="/auth/:kakaoCode" element={<Redirection />} />
 
           {/* 게시판 */}
-          <Route path='/board/*' element={<BoardPage />}>
+          <Route path="/board/*" element={<BoardPage />}>
             <Route index element={<BoardBasic />} />
-            <Route path='basic' element={<BoardBasic />} />
-            <Route path='faq' element={<BoardFAQ />} />
-            <Route path='card' element={<BoardCard />} />
-            <Route path='blog' element={<BoardBlog />} />
-            <Route path='gallery' element={<BoardGallery />} />
-            <Route path='grid' element={<BoardGrid />} />
+            <Route path="basic" element={<BoardBasic />} />
+            <Route path="faq" element={<BoardFAQ />} />
+            <Route path="card" element={<BoardCard />} />
+            <Route path="blog" element={<BoardBlog />} />
+            <Route path="gallery" element={<BoardGallery />} />
+            <Route path="grid" element={<BoardGrid />} />
           </Route>
 
           {/* 표 */}
           <Route path="/table/*" element={<TablePage />} />
 
           {/* 캘린더 */}
-          <Route path='/calendar/*' element={<CalendarPage />} />
+          <Route path="/calendar/*" element={<CalendarPage />} />
 
           {/* 설문 */}
-          <Route path='/survey/*' element={<SurveyPage />}>
+          <Route path="/survey/*" element={<SurveyPage />}>
             <Route index element={<SurveyList />} />
-            <Route path=':id' element={<SurveyDetail />} />
+            <Route path=":id" element={<SurveyDetail />} />
           </Route>
 
           {/* Etc */}
-          <Route path='/etc/*' element={<EtcPage />}>
-            <Route path='pdf' element={<PdfPage />} />
-            <Route path='forms' element={<FormsPage />} />
-            <Route path='prompt' element={<PromptPage />} />
+          <Route path="/etc/*" element={<EtcPage />}>
+            <Route path="pdf" element={<PdfPage />} />
+            <Route path="forms" element={<FormsPage />} />
+            <Route path="prompt" element={<PromptPage />} />
+            <Route path="master-slave" element={<MSPage />} />
+            <Route path="add-subtract" element={<ASPage />} />
           </Route>
 
           {/* 차트 */}
-          <Route path='/chart/*' element={<ChartPage />} />
+          <Route path="/chart/*" element={<ChartPage />} />
+
+          {/* error 404처리 */}
+          <Route path="*" element={<NotFound />} />
+          {/* error 500처리 */}
+          <Route path="error" element={<Error />} />
         </Routes>
-
-
-      </Main >
+      </Main>
       <Footer />
-      {
-        isOpen &&
-        <Dialog />
-      }
+      {isOpen && <Dialog />}
     </>
   )
 }

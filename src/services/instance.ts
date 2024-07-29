@@ -35,6 +35,10 @@ instance.interceptors.response.use(
         const { logout } = useUserStore.getState();
         const { openDialog } = useDialogStore.getState();
         const { setStatus } = useStatusStore.getState();
+        if (error.response && error.response.status === 500) {
+            setStatus(error.response.status, "/error");
+            return
+        }
         if (error.response && error.response.status === 401) {
             // 안쓸거같지만 만들어둠
             if (token) {

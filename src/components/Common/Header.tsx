@@ -48,7 +48,9 @@ const Header = () => {
                         <ul>
                             <li>
                                 <span className='cursor-pointer'>
-                                    <span className='underline underline-offset-2 text-yellow-200'>{userId}</span>님 환영합니다
+                                    <Link to="/user-info">
+                                        <span className='underline underline-offset-2 text-yellow-200'>{userId}</span>님 환영합니다
+                                    </Link>
                                 </span>
                             </li>
                             <li>
