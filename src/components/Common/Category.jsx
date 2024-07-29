@@ -33,8 +33,8 @@ export default function Category() {
     const handleSubTabClick = (subPath) => {
         setActiveSubTab(subPath);
     }
+
     useEffect(() => {
-        console.log(pathname)
     }, [pathname])
 
     useEffect(() => {

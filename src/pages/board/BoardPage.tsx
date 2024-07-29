@@ -70,7 +70,7 @@ export default function BoardPage() {
                     boardIdx: boardIdx
                 }
             });
-            if (_res.status === 200) {
+            if (_res?.status === 200) {
                 const _data = await _res.data;
                 setBoardCurrentData(_data.one);
             } else {
@@ -91,7 +91,7 @@ export default function BoardPage() {
                     searchStr: searchStr ? searchStr : null
                 }
             });
-            if (_res.status === 200) {
+            if (_res?.status === 200) {
                 const _data = await _res.data;
                 setList(_data.list);
                 setTotalPages(Math.ceil(_data.total / 10));
@@ -113,7 +113,7 @@ export default function BoardPage() {
                     searchStr: search !== "" ? search : null
                 }
             });
-            if (_res.status === 200) {
+            if (_res?.status === 200) {
                 const _data = await _res.data;
                 setList(_data.list);
                 setTotalPages(Math.ceil(_data.total / 10));
@@ -138,7 +138,7 @@ export default function BoardPage() {
             const _res = await instance.delete('/user/board/info', {
                 params: { boardIdx }
             });
-            if (_res.status === 200) {
+            if (_res?.status === 200) {
                 console.log('삭제성공');
                 getBoardList(); // 삭제 후 목록 갱신
             } else {

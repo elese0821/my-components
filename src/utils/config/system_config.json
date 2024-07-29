@@ -57,6 +57,14 @@
                 {
                     "cateId": "prompt",
                     "name": "Prompt"
+                },
+                {
+                    "cateId": "master-slave",
+                    "name": "master-slave"
+                },
+                {
+                    "cateId": "add-subtract",
+                    "name": "add-subtract"
                 }
             ]
         },

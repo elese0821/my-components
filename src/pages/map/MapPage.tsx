@@ -13,7 +13,7 @@ export default function MapPage() {
     const handleComplete = (data) => {
         setAddress(data);
         setRoadAddress(data.roadAddress);
-        console.log(roadAddress)
+        console.log(roadAddress);
         closeModal();
     };
 
@@ -29,4 +29,3 @@ export default function MapPage() {
         </div>
     )
 }
-
