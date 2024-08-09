@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react"
-import instance from "../../services/instance"
+import instance from "../../services/instance.ts"
 import { useLocation, useNavigate } from "react-router-dom"
 import useUserStore from '../../stores/userStore.ts';
-import { SERVER_API_BASE_URL, WEB_SOCKET_API_BASE_URL } from "../../services/endpoint";
+import { SERVER_API_BASE_URL, WEB_SOCKET_API_BASE_URL } from "../../services/endpoint.ts";
 import { Stomp } from "@stomp/stompjs";
 import styles from "./ChatRoom.module.scss";
-import useDialogStore from "../../stores/dialogStore";
+import useDialogStore from "../../stores/dialogStore.ts";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import Buttons from "../common/forms/Buttons";
-import InputText from './../common/forms/InputText';
+import Buttons from "../common/forms/Buttons.tsx";
+import InputText from '../common/forms/InputText.tsx';
 
 export default function ChatRoom() {
     const location = useLocation();
@@ -89,6 +89,7 @@ export default function ChatRoom() {
 
     // 새 메시지를 보내는 함수
     const sendMessage = (sendType) => (e) => {
+
         e.preventDefault();
         if (sendType === "C" && message === "") {
             openDialog("메세지를 입력하세요..🥲");
@@ -120,7 +121,6 @@ export default function ChatRoom() {
         }
     }
 
-
     // 파일선택시
     const handleFileChange = async (e) => {
         const files = e.target.files;
@@ -142,6 +142,8 @@ export default function ChatRoom() {
                 }
             });
             const file = await response.data.fileIdxList;
+            console.log(file)
+
             setSendFileType(true);
             setFileIdx(file[0]);
         } catch (error) {
@@ -156,9 +158,10 @@ export default function ChatRoom() {
 
     useEffect(() => {
         if (sendFileType && fileIdx) {
-            sendMessage("F");
+            sendMessage("F")(new Event('submit'));
         }
     }, [sendFileType, fileIdx]);
+
 
     useEffect(() => {
         getChatRecord();
@@ -169,10 +172,13 @@ export default function ChatRoom() {
     return (
         <div className={styles.chat__room}>
             <div className="flex flex-col bg-gray1 rounded">
+                {/* 채팅창 헤더 */}
                 <div className="flex w-full bg-blue justify-between items-center p-0.5 rounded-t">
                     <h2 className="text-white p-1.5 bold text-lg">{chatName}</h2>
                     <XMarkIcon className="h-8 w-8 cursor-pointer text-white p-1.5 hover:text-gray-300 transition" onClick={handleLocation} />
                 </div>
+
+                {/* 채팅기록 */}
                 <div className={`p-4 overflow-y-auto scrollbar-thin ${styles.chatMsg}`} >
                     {/* 메시지가 표시 */}
                     <div className="flex flex-col space-y-4" >
@@ -195,8 +201,11 @@ export default function ChatRoom() {
                                                 <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray2' : 'bg-red'
                                                     }`}>{el.contents}</p>
                                                 :
-                                                <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray2' : 'bg-red'}`}>파일 다운로드 : <a href={`${SERVER_API_BASE_URL}/file/download/${el.contents}`} className="text-blue-500 underline">{el.fileName}</a>
-                                                </p>
+                                                <>
+                                                    <img src={`${SERVER_API_BASE_URL}/file/download/${el.contents}`} alt="file" className="h-16 w-16 object-cover rounded-lg" />
+                                                    <p className={`rounded-lg p-3 text-md text-white ${isCurrentUsr ? 'bg-gray2' : 'bg-red'}`}>파일 다운로드 : <a href={`${SERVER_API_BASE_URL}/file/download/${el.contents}`} className="text-blue-500 underline">{el.fileName}</a>
+                                                    </p>
+                                                </>
                                             }
                                             <p className={`rounded-lg text-sm text-white mt-1 ${isCurrentUsr ? 'text-right' : 'text-left'}`}>{el.regDt}</p>
                                         </div>
@@ -210,16 +219,18 @@ export default function ChatRoom() {
                         }
                     </div>
                 </div>
+
+                {/* 입력 필드와 전송 버튼 */}
                 <div className="p-4">
-                    {/* 입력 필드와 전송 버튼 */}
                     <form className="flex gap-4" onSubmit={sendMessage(sendFileType ? "F" : "C")}>
                         <label htmlFor="file" className="text-sm font-medium text-gray4 flex items-center bg-blue p-2 hover:bg-blue-700 transition cursor-pointer">
                             <PlusIcon className="h-6 w-6 text-white" />
                         </label>
                         <input
-                            type="file"
-                            name="file"
                             id="file"
+                            name="file"
+                            // accept=".jpg,.png,.jpeg"
+                            type="file"
                             className="hidden"
                             onChange={handleFileChange}
                             ref={fileInputRef}

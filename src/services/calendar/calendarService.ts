@@ -8,15 +8,13 @@ const getSchedule = async () => {
 }
 
 // 스케쥴(일정) 추가
-const addSchedule = async (selectedDate) => {
-    const fromDt = selectedDate.format('YYYY.MM.DD');
-    const toDt = selectedDate.add(1, 'day').format('YYYY.MM.DD');
+const addSchedule = async (formData) => {
     const response = await instance.post('user/schedule/info', {
-        fromDt: fromDt,
-        toDt: toDt,
-        color: "#ff0000",
-        title: "일정 제목",
-        contents: "일정 내용",
+        title: formData.title,
+        color: formData.color,
+        fromDt: formData.start,
+        toDt: formData.end,
+        contents: formData.contents,
     });
     return response.data;
 }
