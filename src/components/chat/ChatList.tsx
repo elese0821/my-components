@@ -8,10 +8,12 @@ import { Input } from '@material-tailwind/react';
 import InputText from '../common/forms/InputText';
 import useUserStore from '../../stores/userStore';
 import useModalStore from '../../stores/modalStore';
+import { listType } from './@types/listType';
+import useDialogStore from '../../stores/dialogStore';
 
 export default function ChatList() {
     const { userId, token } = useUserStore();
-    const [chatList, setChatList] = useState(null);
+    const [chatList, setChatList] = useState<listType[]>([]);
     const { openModal, closeModal } = useModalStore(state => state);
     const [add, setAdd] = useState(false);
     const navigate = useNavigate()
@@ -25,6 +27,7 @@ export default function ChatList() {
         password: '',
         channelId: ''
     };
+    const { openDialog } = useDialogStore();
 
     // 함수정의
     const handleChange = (e) => {
@@ -78,15 +81,22 @@ export default function ChatList() {
 
     // 채팅룸 추가 요청
     const handleAddChatRoom = async () => {
+        // 임시
+        if (!formData.chatName) {
+            openDialog("채팅방이름을 입력해주세여");
+            return;
+        }
         try {
             const _res = await instance.post("/user/chat", {
-                pw: formData.chatName,
-                chatNm: formData.password
+                chatNm: formData.chatName,
+                pw: formData.password
             });
 
             if (_res.data.result == "success") {
                 getChatList();
                 resetFormData();
+                closeModal();
+                openDialog("채팅방이 생성되었습니다.");
             } else {
                 console.log("오류발생🥲");
             }
@@ -178,33 +188,32 @@ export default function ChatList() {
                 <Modal>
                     <div>
                         {add ? (
-                            <div className='px-10 pb-10 flex-col justify-center flex'>
-                                <form className="flex flex-col bg-white rounded-lg">
-                                    <label htmlFor="chatName" className="font-semibold text-gray-700">채팅방 이름</label>
-                                    <input
+                            <div className='p-10 pb-10 flex-col justify-center flex gap-5'>
+                                <form className="flex flex-col rounded-lg gap-3">
+                                    <InputText
                                         type="text"
                                         id="chatName"
                                         name="chatName"
-                                        value={formData.chatName}
                                         onChange={handleChange}
-                                        className="mt-1 mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                         autoComplete='off'
+                                        label='채팅방 이름'
+                                        placeholder='채팅방 이름'
                                     />
 
-                                    <label htmlFor="password" className="font-semibold text-gray-700">비밀번호</label>
-                                    <input
+                                    <InputText
                                         type="password"
                                         id="password"
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className="mt-1 mb-6 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                         autoComplete='off'
+                                        label='입장 비밀번호'
+                                        placeholder='입장 비밀번호'
                                     />
                                 </form>
-                                <Buttons onClick={handleAddChatRoom} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">
+                                <Buttons onClick={handleAddChatRoom}>
                                     채팅방 생성
                                 </Buttons>
                             </ div>

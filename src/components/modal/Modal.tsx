@@ -34,7 +34,7 @@ const Modal = ({ children }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-20"
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-20"
         >
             <div className="bg-white rounded-lg shadow-lg max-w-lg w-full relative"
                 ref={modalRef}>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import useDialogStore from '../../stores/dialogStore';
@@ -32,7 +33,7 @@ const Dialog = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-20"
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-20"
         >
             <div className="modal-content bg-white rounded-lg shadow p-6 m-4 max-w-sm w-full flex flex-col justify-center relative"
                 ref={dialogRef}

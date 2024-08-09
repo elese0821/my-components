@@ -1,4 +1,8 @@
 export default interface Calendar {
-  selectedDate?: any;
-  scheduleIdx?: number;
+  scheduleIdx: number;
+  fromDt: string;
+  toDt: string;
+  color: string;
+  title: string;
+  contents: string;
 }
