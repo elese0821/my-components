@@ -1,7 +1,7 @@
-import React, { InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, ReactNode } from 'react'
 
 interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
-    children?: string;
+    children?: ReactNode;
 }
 
 export default function Radio({ children, value, name, defaultChecked, disabled, onChange, checked }: RadioProps) {

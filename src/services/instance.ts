@@ -6,7 +6,6 @@ import useStatusStore from '../stores/statusStore';
 
 const instance = axios.create({
     baseURL: SERVER_API_BASE_URL,
-    withCredentials: true,
     headers: {
         "Content-Type": "application/json",
     },
@@ -25,7 +24,7 @@ instance.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-``
+
 instance.interceptors.response.use(
     (response) => {
         return response;
@@ -37,17 +36,15 @@ instance.interceptors.response.use(
         const { setStatus } = useStatusStore.getState();
         if (error.response && error.response.status === 500) {
             setStatus(error.response.status, "/error");
-            return
+            return Promise.reject(error);
         }
         if (error.response && error.response.status === 401) {
-            // 안쓸거같지만 만들어둠
             if (token) {
                 logout();
-                openDialog("세션이 만료되었습니다. 다시 로그인해주세요🥲");
-                return
+                openDialog("세션이 만료되었습니다. 다시 로그인해주세요.");
+                return Promise.reject(error);
             }
-            // ---
-            openDialog("로그인해주세요🥲");
+            openDialog("로그인이 필요합니다.");
             setStatus(error.response.status, "/");
         }
         return Promise.reject(error);

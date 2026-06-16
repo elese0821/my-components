@@ -34,14 +34,17 @@ const Modal = ({ children }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-20"
+            className="fixed inset-0 bg-black bg-opacity-75 z-20 overflow-y-auto"
         >
+            {/* 안쪽 래퍼: min-h-full + items-center → 짧으면 가운데, 길면 스크롤 */}
+            <div className="flex min-h-full items-center justify-center p-4">
             <div className="bg-white rounded-lg shadow-lg max-w-lg w-full relative"
                 ref={modalRef}>
                 <button className="absolute top-2.5 right-2.5 text-gray-600 hover:text-gray-800" onClick={closeModal}>
                     <XCircleIcon className='text-lg h-6' />
                 </button>
                 {children}
+            </div>
             </div>
         </motion.div>
     );

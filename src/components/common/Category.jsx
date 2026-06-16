@@ -74,7 +74,7 @@ export default function Category() {
                                     animate={showMenu === i ? 'open' : 'closed'}
                                     variants={variants}
                                     transition={{ duration: 0.2 }}
-                                    className='absolute left-0 w-full bg-purpler text-white flex text-sm top-full justify-center z-4 items-center'
+                                    className='absolute left-0 w-full bg-purpler text-white flex text-sm top-full justify-center z-50 items-center'
                                     key={`submenu-${path}-${i}`}
                                 >
                                     {subMenu[i].map((subEl, j) => (

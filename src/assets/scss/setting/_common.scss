@@ -1,5 +1,7 @@
-body {
-    background-color: var(--bgc);
+// 스크롤을 html(=document) 레벨에서 처리해야 window.scrollY 가 정상 동작함
+// body 에 overflow-y: auto 를 주면 body 내부에서 스크롤이 일어나
+// window.scrollY = 0 으로 고정되는 버그가 생김
+html {
     overflow-y: auto;
 
     &::-webkit-scrollbar {
@@ -18,8 +20,18 @@ body {
     }
 }
 
+body {
+    background-color: var(--bgc);
+}
+
+// 헤더 내비 가로 스크롤바 숨김 (scrollbar-none)
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
 main {
-    min-height: calc(100vh - 2.3rem);
+    min-height: 100vh;
+    // fixed 헤더 아래에 내용이 들어가지 않도록 섹션 자체가 100vh 이상 확보
 }
 
 // 섹션 공통 요소
@@ -52,10 +64,11 @@ section {
 
 .section_wrap {
     padding: 2rem;
-    padding-top: 4rem;
+    padding-top: 7rem;   // fixed 헤더(~100px) + 여유 여백
     max-width: 80rem;
     margin: 0 auto;
     z-index: 0;
+    min-height: 70vh; // 페이지 전환 시 짧은 화면 방지
 }
 
 // 섹션 로딩 소스
@@ -100,59 +113,228 @@ button[class*="btn"] {
     cursor: pointer;
 } */
 
+// ── 헤로 섹션 키프레임 ──────────────────────────────────────
+
+@keyframes heroGradient {
+    0%   { opacity: 0.55; background-position: 0% 50%;   }
+    50%  { opacity: 0.65; background-position: 100% 50%; }
+    100% { opacity: 0.55; background-position: 0% 50%;   }
+}
+
+@keyframes particleFloat {
+    0%   { transform: translateY(0px)   scale(1);    opacity: 0.6; }
+    50%  { transform: translateY(-18px) scale(1.2);  opacity: 1;   }
+    100% { transform: translateY(0px)   scale(1);    opacity: 0.6; }
+}
+
+@keyframes chevFade {
+    0%   { opacity: 0;    transform: translateY(-6px); }
+    40%  { opacity: 0.85; transform: translateY(0);    }
+    80%  { opacity: 0;    transform: translateY(6px);  }
+    100% { opacity: 0;    transform: translateY(6px);  }
+}
+
+@keyframes linePulse {
+    0%, 100% { opacity: 0.25; }
+    50%       { opacity: 0.55; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+// ── 섹션 헤더 ───────────────────────────────────────────────
+
 .section__header {
     text-align: center;
     position: relative;
     color: var(--white);
-    height: 70vh;
+    height: 100vh;
     display: flex;
     align-items: center;
-    // background-image: url(/kakao.png);
+    // 배경 이미지를 CSS 에 유지 → cover 기준 불변 → 이미지 원본 비율·크기 그대로
+    // 패럴랙스는 Main.jsx 에서 background-position-y 를 rAF 단위 조작
     background-image: url("/kakao3.png");
     background-size: cover;
-    background-repeat: no-repeat;
     background-position: center center;
     flex-direction: column;
     justify-content: center;
-    z-index: 2;
+    z-index: 0;
+    overflow: visible; // 서브메뉴가 아래로 펼쳐지도록
 
-    @media (max-width: 1250px) {
-        height: 40vh;
+    @media (max-width: 1024px) { height: 80vh; }
+    @media (max-width: 640px)  { height: 60vh; }
+    @media (max-width: 400px)  { height: 50vh; }
+
+    // ── 정적 그라디언트 오버레이 (애니메이션 제거 → GPU 절약) ──
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(10, 10, 40, 0.55) 0%,
+            rgba(20, 40, 80, 0.45) 40%,
+            rgba(10, 10, 40, 0.55) 100%
+        );
+        // animation: heroGradient — 제거 (background-position 변경은 repaint 유발)
+        z-index: 0;
     }
 
+    // ── 스크롤 반응 딤/블러 오버레이 ──
+    .hero-overlay--dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 10, 0.85);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    // ── 파티클 ──
+    .hero-particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .hero-particle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.55);
+        animation: particleFloat linear infinite;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+
+    // ── 타이틀 ──
     div.title {
         font-size: 4rem;
         display: flex;
         align-items: center;
         position: relative;
-        z-index: 1;
-        padding: 1rem;
+        z-index: 2;
+        padding: 0.8rem 2rem;
         justify-content: center;
+        gap: 0.6rem;
 
         &:after {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: rgba($color: #000000, $alpha: 0.2);
+            background: rgba(0, 0, 0, 0.15);
             content: '';
             z-index: -1;
-            backdrop-filter: blur(0.1rem);
+            // backdrop-filter: blur(2px) — 제거 (GPU heavy)
+            border-radius: 4px;
         }
 
         h3 {
             font-size: 5vw;
             text-transform: uppercase;
             line-height: 1;
-            letter-spacing: 0.05em;
-            font-weight: bold;
+            font-weight: 800;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+
+            @media (max-width: 768px) { font-size: 10vw; }
         }
 
         p {
             font-size: 3vw;
             line-height: 1;
-            font-weight: lighter;
+            font-weight: 300;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+
+            @media (max-width: 768px) { font-size: 6vw; }
         }
     }
+
+    // ── 서브타이틀 태그 ──
+    .hero-tags {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-tag {
+        padding: 4px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.12);
+        // backdrop-filter: blur(4px) — 제거 (GPU heavy)
+        letter-spacing: 0.03em;
+        transition: background 0.2s, border-color 0.2s;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    // ── 타이핑 서브타이틀 ──
+    .hero-typewriter {
+        display: inline-block;
+        font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.72);
+        letter-spacing: 0.06em;
+        min-height: 1.6em;
+    }
+
+    .hero-cursor {
+        display: inline-block;
+        margin-left: 1px;
+        color: rgba(255, 255, 255, 0.65);
+        font-weight: 200;
+        animation: blink 0.9s step-end infinite;
+    }
+
+    // ── 스크롤 인디케이터 ──
+    .hero-scroll {
+        position: absolute;
+        bottom: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+
+        @media (max-width: 768px) { display: none; }
+    }
+
+    .hero-scroll__line {
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+        animation: linePulse 2s ease-in-out infinite;
+        margin-bottom: 4px;
+    }
+
+    .hero-scroll__chevrons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+
+    .hero-scroll__chev {
+        width: 18px;
+        height: 18px;
+        color: rgba(255, 255, 255, 0.7);
+        animation: chevFade 1.8s ease-in-out infinite;
+    }
+
+    .hero-scroll__chev--1 { animation-delay: 0s; }
+    .hero-scroll__chev--2 { animation-delay: 0.25s; }
 }
 
 .btn {
@@ -470,6 +652,174 @@ code {
     display: flex;
     gap: 8px;
     justify-content: flex-end;
+}
+
+// ── FullCalendar 스타일 오버라이드 ─────────────────────────
+
+.fc {
+    font-family: inherit;
+
+    // 툴바 (prev / next / today 버튼)
+    .fc-toolbar {
+        padding: 1rem 1.25rem 0.6rem;
+
+        .fc-toolbar-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111827;
+            letter-spacing: -0.01em;
+        }
+
+        .fc-button-group { gap: 2px; }
+
+        .fc-button {
+            background: transparent !important;
+            border: 1px solid #e5e7eb !important;
+            color: #374151 !important;
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.28rem 0.65rem;
+            border-radius: 6px !important;
+            transition: all 0.15s;
+            box-shadow: none !important;
+            text-transform: none;
+
+            &:hover:not(:disabled) {
+                background: #f3f4f6 !important;
+                border-color: #d1d5db !important;
+            }
+
+            &.fc-button-active,
+            &:active {
+                background: #6366f1 !important;
+                border-color: #6366f1 !important;
+                color: #fff !important;
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+            }
+
+            .fc-icon {
+                font-size: 0.9em;
+            }
+        }
+    }
+
+    // 요일 헤더
+    .fc-col-header-cell {
+        background: #f9fafb;
+        border-color: #f3f4f6 !important;
+        padding: 0.4rem 0;
+
+        .fc-col-header-cell-cushion {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #9ca3af;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            text-decoration: none !important;
+        }
+    }
+
+    // 날짜 셀
+    td, th { border-color: #f3f4f6 !important; }
+
+    .fc-daygrid-day {
+        transition: background 0.1s;
+
+        &:hover { background: #f9fafb; }
+
+        .fc-daygrid-day-number {
+            font-size: 0.76rem;
+            color: #374151;
+            padding: 0.35rem 0.5rem;
+            text-decoration: none !important;
+            transition: background 0.1s;
+            border-radius: 50%;
+            line-height: 1.6;
+
+            &:hover { background: #f3f4f6; }
+        }
+    }
+
+    // 오늘
+    .fc-day-today {
+        background: #eff6ff !important;
+
+        .fc-daygrid-day-number {
+            color: #3b82f6;
+            font-weight: 700;
+        }
+    }
+
+    // 토 / 일 색상
+    .fc-day-sat .fc-daygrid-day-number { color: #3b82f6; }
+    .fc-day-sun .fc-daygrid-day-number { color: #ef4444; }
+
+    // 이벤트 바
+    .fc-event {
+        border-radius: 4px;
+        border: none !important;
+        font-size: 0.68rem;
+        padding: 1px 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: filter 0.12s, transform 0.12s;
+
+        &:hover {
+            filter: brightness(0.86);
+            transform: translateY(-1px);
+        }
+
+        .fc-event-title { font-weight: 500; }
+    }
+
+    // +N 더보기
+    .fc-more-link {
+        font-size: 0.66rem;
+        color: #6366f1;
+        font-weight: 600;
+        text-decoration: none !important;
+
+        &:hover { color: #4f46e5; }
+    }
+
+    // 주간 타임그리드
+    .fc-timegrid-slot-label-cushion {
+        font-size: 0.64rem;
+        color: #9ca3af;
+    }
+
+    .fc-timegrid-now-indicator-line {
+        border-color: #ef4444;
+        border-width: 1.5px;
+    }
+
+    .fc-timegrid-now-indicator-arrow {
+        border-top-color: #ef4444;
+        border-bottom-color: #ef4444;
+    }
+
+    // 리스트 뷰
+    .fc-list-event {
+        font-size: 0.78rem;
+        &:hover td { background: #f9fafb; }
+
+        .fc-list-event-dot { border-width: 6px; }
+    }
+
+    .fc-list-day-text,
+    .fc-list-day-side-text {
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-decoration: none !important;
+    }
+
+    .fc-list-empty-cushion {
+        font-size: 0.82rem;
+        color: #9ca3af;
+    }
 }
 
 // calendar

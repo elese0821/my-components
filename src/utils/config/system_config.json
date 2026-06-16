@@ -1,84 +1,44 @@
 {
     "menu": [
+        { "title": "Projects", "path": "/projects" },
         {
             "title": "Board",
-            "path": "board",
+            "path": "/board",
             "submenu": [
-                {
-                    "cateId": "basic",
-                    "name": "게시판"
-                },
-                {
-                    "cateId": "card",
-                    "name": "카드형"
-                },
-                {
-                    "cateId": "faq",
-                    "name": "FAQ"
-                },
-                {
-                    "cateId": "blog",
-                    "name": "블로그 게시판"
-                },
-                {
-                    "cateId": "gallery",
-                    "name": "갤러리 게시판"
-                },
-                {
-                    "cateId": "grid",
-                    "name": "그리드 게시판"
-                }
+                { "cateId": "basic",   "name": "게시판" },
+                { "cateId": "card",    "name": "카드형" },
+                { "cateId": "faq",     "name": "FAQ" },
+                { "cateId": "blog",    "name": "블로그" },
+                { "cateId": "gallery", "name": "갤러리" },
+                { "cateId": "grid",    "name": "그리드" }
             ]
         },
-        {
-            "title": "Calendar",
-            "path": "calendar"
-        },
+        { "title": "Calendar", "path": "/calendar" },
         {
             "title": "Table",
-            "path": "table"
-        },
-        {
-            "title": "Chart",
-            "path": "chart"
-        },
-        {
-            "title": "Etc",
-            "path": "etc",
+            "path": "/table",
             "submenu": [
-                {
-                    "cateId": "pdf",
-                    "name": "PDF"
-                },
-                {
-                    "cateId": "forms",
-                    "name": "Forms"
-                },
-                {
-                    "cateId": "prompt",
-                    "name": "Prompt"
-                },
-                {
-                    "cateId": "master-slave",
-                    "name": "master-slave"
-                },
-                {
-                    "cateId": "add-subtract",
-                    "name": "add-subtract"
-                }
+                { "cateId": "basic",   "name": "직원 관리" },
+                { "cateId": "order",   "name": "주문 관리" },
+                { "cateId": "edit",    "name": "인라인 편집" },
+                { "cateId": "stats",   "name": "통계 집계" },
+                { "cateId": "compare", "name": "비교표" }
             ]
         },
+        { "title": "Chart",    "path": "/chart" },
         {
-            "title": "Chat",
-            "path": "chat"
+            "title": "Etc",
+            "path": "/etc",
+            "submenu": [
+                { "cateId": "forms",        "name": "Forms" },
+                { "cateId": "pdf",          "name": "PDF" },
+                { "cateId": "prompt",       "name": "Prompt" },
+                { "cateId": "master-slave", "name": "Master-Slave" },
+                { "cateId": "add-subtract", "name": "Add-Subtract" }
+            ]
         },
-        {
-            "title": "Map",
-            "path": "map"
-        },
-        {
-            "title": "Survey",
-            "path": "survey"
-        }
+        { "title": "Chat",   "path": "/chat" },
+        { "title": "Map",    "path": "/map" },
+        { "title": "Survey", "path": "/survey" }
     ]
 }
