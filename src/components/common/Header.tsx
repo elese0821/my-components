@@ -5,8 +5,8 @@ import useUserStore from '../../stores/userStore.ts';
 import useModalStore from '../../stores/modalStore.ts';
 import Modal from '../modal/Modal.tsx';
 import styles from './Header.module.scss';
-import Join from '../Auth/Join.tsx';
-import Login from '../Auth/Login.tsx';
+import Join from '../auth/Join.tsx';
+import Login from '../auth/Login.tsx';
 
 const Header = () => {
     const { userId, logout } = useUserStore();
