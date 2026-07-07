@@ -48,7 +48,6 @@ import Error from './pages/Error';
 import MSPage from './pages/Etc/MSPage';
 import ASPage from './pages/Etc/ASPage';
 import UserInfoPage from './pages/user/UserInfoPage';
-import ProjectsPage from './pages/projects/ProjectsPage';
 
 export default function App() {
   const { isOpen } = useDialogStore();
@@ -131,9 +130,6 @@ export default function App() {
 
           {/* 차트 */}
           <Route path="/chart/*" element={<ChartPage />} />
-
-          {/* 프로젝트 쇼케이스 */}
-          <Route path="/projects" element={<ProjectsPage />} />
 
           {/* 마이페이지 */}
           <Route path="/user-info" element={<UserInfoPage />} />

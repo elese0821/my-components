@@ -1,6 +1,5 @@
 {
     "menu": [
-        { "title": "Projects", "path": "/projects" },
         {
             "title": "Board",
             "path": "/board",
