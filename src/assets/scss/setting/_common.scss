@@ -155,7 +155,7 @@ button[class*="btn"] {
     align-items: center;
     // 배경 이미지를 CSS 에 유지 → cover 기준 불변 → 이미지 원본 비율·크기 그대로
     // 패럴랙스는 Main.jsx 에서 background-position-y 를 rAF 단위 조작
-    background-image: url("/kakao3.png");
+    background-image: url("/hero-bg.svg");
     background-size: cover;
     background-position: center center;
     flex-direction: column;
