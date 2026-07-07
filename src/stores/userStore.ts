@@ -7,7 +7,7 @@ interface UserStoreState {
     usrIdx:       string | null;
     profileImage: string | null;   // 소셜 프로필 사진 URL
     nickname:     string | null;   // 소셜 닉네임
-    provider:     string | null;   // 'KAKAO' | 'NAVER' | 'GOOGLE' | 'NORMAL'
+    provider:     string | null;   // 'GOOGLE' | 'NORMAL'
     setUser: (data: {
         userId:        any;
         token:         any;

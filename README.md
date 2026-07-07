@@ -138,7 +138,7 @@ my-components/
 │   │       ├── Main.jsx          # 레이아웃 (섹션 헤더 + 카테고리 메뉴)
 │   │       ├── Category.jsx      # 상단 카테고리 메뉴
 │   │       ├── Loading.jsx       # 로딩 스피너
-│   │       ├── Redirection.jsx   # 카카오 OAuth 리다이렉트 처리
+│   │       ├── Redirection.jsx   # 구글 OAuth 리다이렉트 처리
 │   │       ├── comments/
 │   │       │   └── Comments.tsx  # 댓글 CRUD
 │   │       ├── forms/
@@ -243,9 +243,9 @@ VITE_WS_URL=http://localhost:4000
 # 발급: https://developers.kakao.com → 내 애플리케이션 → 앱 키 → JavaScript 키
 VITE_APP_KAKAO_JS_KEY=your_kakao_javascript_key
 
-# 카카오 소셜 로그인 (OAuth) — 소셜 로그인 사용 시
-VITE_APP_REST_API_KEY=your_kakao_rest_api_key
-VITE_APP_REDIRECT_URL=http://localhost:5173/auth/kakao
+# 구글 소셜 로그인 (OAuth 2.0 PKCE) — 소셜 로그인 사용 시
+VITE_APP_GOOGLE_CLIENT_ID=your_google_client_id
+VITE_APP_GOOGLE_REDIRECT_URL=http://localhost:5173/auth/google
 ```
 
 > 카카오맵 키 미설정 시 MapPage에 안내 UI가 표시됩니다. 나머지 기능은 정상 동작합니다.

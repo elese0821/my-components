@@ -80,8 +80,8 @@ export default function App() {
           {/* 지도 */}
           <Route path="/map" element={<MapPage />} />
 
-          {/* 소셜 로그인 콜백 — /auth/kakao, /auth/naver 모두 처리 */}
-          <Route path="/auth/:kakaoCode" element={<Redirection />} />
+          {/* 소셜 로그인 콜백 — /auth/google */}
+          <Route path="/auth/google" element={<Redirection />} />
 
           {/* 게시판 홈 — 카테고리 선택 랜딩 */}
           <Route path="/board" element={<BoardHome />} />
