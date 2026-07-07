@@ -143,7 +143,7 @@ export default function Home() {
                     WY Components
                 </h1>
                 <p className='text-base text-gray-500 max-w-2xl leading-relaxed'>
-                    실무에 바로 복붙해서 쓸 수 있는 컴포넌트 모음집입니다.
+                    웹 서비스의 핵심 기능을 프론트엔드부터 백엔드까지 직접 구현한 풀스택 프로젝트입니다.
                     게시판 6종, 캘린더, 테이블, 차트, 지도, 실시간 채팅, 설문 시스템, 폼 UI까지
                     <strong className='text-gray-700'> React + TypeScript</strong>로 구현되어 있으며
                     <strong className='text-gray-700'> Node.js 백엔드 + TiDB Cloud</strong>와 연동됩니다.

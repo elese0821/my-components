@@ -24,8 +24,8 @@ interface Project {
 const PROJECTS: Project[] = [
     {
         title:    'WY Components',
-        subtitle: 'React 컴포넌트 모음집',
-        desc:     '게시판 6종 · 캘린더 · 테이블 · 차트 · 지도 · 실시간 채팅 · 설문까지 실무용 컴포넌트 데모. (지금 보고 있는 사이트)',
+        subtitle: 'React + Node.js 풀스택 프로젝트',
+        desc:     '게시판 6종 · 캘린더 · 테이블 · 차트 · 지도 · 실시간 채팅 · 설문까지 웹 서비스 핵심 기능을 직접 구현. (지금 보고 있는 사이트)',
         url:      '',
         tags:     ['React 18', 'TypeScript', 'Vite', 'Node.js'],
         gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)',

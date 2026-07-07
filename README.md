@@ -1,7 +1,7 @@
 # WY Components — Frontend
 
-> 실무에 바로 붙여넣을 수 있는 React 컴포넌트 모음집  
-> **Vite + React 18 + TypeScript + Tailwind CSS + Node.js 백엔드 연동**
+> 웹 서비스에서 반복적으로 쓰이는 핵심 기능을 프론트엔드부터 백엔드까지 직접 구현한 풀스택 프로젝트  
+> **Vite + React 18 + TypeScript + Tailwind CSS + Node.js(Express) + MySQL(TiDB Cloud)**
 
 ## 🔗 Live Demo
 
@@ -34,7 +34,7 @@
 
 ## 1. 프로젝트 개요
 
-WY Components는 실무 프로젝트에서 반복적으로 쓰이는 UI 패턴을 한 곳에 모아 **복붙만으로 즉시 사용 가능한 수준**으로 완성도를 높인 포트폴리오 프로젝트입니다.
+WY Components는 웹 서비스에서 반복적으로 쓰이는 핵심 기능들 — 게시판, 실시간 채팅, 설문, 캘린더, 지도, 차트, 인증 — 을 **화면(React)부터 API 서버(Express)와 DB(TiDB)까지 직접 설계·구현**한 풀스택 포트폴리오 프로젝트입니다. 실제 배포 환경에서 운영 중입니다.
 
 - **프론트엔드**: Vite 5 · React 18 · TypeScript · Tailwind CSS 3
 - **백엔드**: Node.js · Express · Socket.IO (`my-components-server`)
