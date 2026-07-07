@@ -3,6 +3,16 @@
 > 실무에 바로 붙여넣을 수 있는 React 컴포넌트 모음집  
 > **Vite + React 18 + TypeScript + Tailwind CSS + Node.js 백엔드 연동**
 
+## 🔗 Live Demo
+
+| 구분 | 주소 |
+|---|---|
+| **웹 사이트** | https://my-components-eta.vercel.app |
+| **백엔드 API** | https://my-components-server.onrender.com |
+| **백엔드 저장소** | https://github.com/elese0821/my-components-server |
+
+> ⏱️ 무료 호스팅(Render Free) 특성상 서버가 유휴 상태일 때 **첫 요청에 30~50초**가 걸릴 수 있습니다. 데이터가 비어 보이면 잠시 후 새로고침 해주세요.
+
 ---
 
 ## 목차
