@@ -170,7 +170,7 @@ const fileStore = new Map<number, StoredFile>()
 
 // ── Auth helper ────────────────────────────────────────────────────────────
 function getAuthUser(request: Request): MockUser | null {
-    const token = request.headers.get('X-SKYAND-AUTH-TOKEN')
+    const token = request.headers.get('X-AUTH-TOKEN')
     if (!token || token === 'null' || token === 'undefined') return null
     const match = token.match(/^mock-token-(.+)-\d+$/)
     if (!match) return null

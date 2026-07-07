@@ -16,7 +16,7 @@ instance.interceptors.request.use(
     (config) => {
         const { token } = useUserStore.getState();
         if (config.url !== '/login') {
-            config.headers["X-SKYAND-AUTH-TOKEN"] = token;
+            config.headers["X-AUTH-TOKEN"] = token;
         }
         return config;
     },

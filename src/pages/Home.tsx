@@ -114,7 +114,7 @@ const STACK_BACKEND = [
     { name: 'Node.js + Express', desc: 'REST API 서버' },
     { name: 'Socket.IO', desc: '웹소켓 실시간 채팅' },
     { name: 'mysql2 (TiDB Cloud)', desc: 'MySQL 호환 클라우드 DB' },
-    { name: 'JWT', desc: '헤더 기반 인증 (X-SKYAND-AUTH-TOKEN)' },
+    { name: 'JWT', desc: '헤더 기반 인증 (X-AUTH-TOKEN)' },
     { name: 'bcrypt', desc: '비밀번호 해싱' },
     { name: 'multer', desc: '파일 업로드' },
     { name: 'nodemon', desc: '개발 자동 재시작' },
@@ -232,7 +232,7 @@ export default function Home() {
                         </div>
                         <div className='p-4 flex flex-col gap-2.5'>
                             {[
-                                { icon: ShieldCheckIcon, color: 'text-blue-500', title: 'JWT 인증', desc: '커스텀 헤더 X-SKYAND-AUTH-TOKEN + Axios 인터셉터' },
+                                { icon: ShieldCheckIcon, color: 'text-blue-500', title: 'JWT 인증', desc: '커스텀 헤더 X-AUTH-TOKEN + Axios 인터셉터' },
                                 { icon: BoltIcon, color: 'text-yellow-500', title: 'StrictMode 안전 소켓', desc: 'cancelled 플래그로 이중 연결 방지 (React 18 StrictMode)' },
                                 { icon: CircleStackIcon, color: 'text-green-500', title: 'snake_case → camelCase', desc: '서버 SQL 별칭으로 camelCase 변환, 프론트 일관성 유지' },
                                 { icon: ShieldCheckIcon, color: 'text-purple-500', title: 'Tailwind 커스텀 색상', desc: 'flat값 대신 shade 객체로 bg-blue-600 등 표준 클래스 유지' },
